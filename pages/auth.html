@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Axion - Sign in to your account.">
+    <title>Sign In - Axion</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Theme (loaded first to prevent flash) -->
+    <script src="../js/theme.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+
+    <style>
+        .auth {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8) 0;
+        }
+
+        .auth__container {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .auth__header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .auth__logo {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            letter-spacing: 0.1em;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .auth__title {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .auth__desc {
+            color: var(--text-muted);
+            font-size: var(--text-sm);
+        }
+
+        .auth__tabs {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+        }
+
+        .auth__tab {
+            flex: 1;
+            padding: var(--space-3);
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .auth__tab:hover {
+            opacity: 0.8;
+        }
+
+        .auth__tab.active {
+            background: var(--bg-card);
+            border-color: var(--border-visible);
+            color: var(--text-primary);
+        }
+
+        .auth__form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+        }
+
+        .auth__form.hidden {
+            display: none;
+        }
+
+        .auth__divider {
+            text-align: center;
+            margin: var(--space-6) 0;
+            color: var(--text-muted);
+            font-size: var(--text-sm);
+        }
+
+        .auth__otp-display {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin: var(--space-4) 0;
+            text-align: center;
+        }
+
+        .auth__otp-code {
+            font-family: var(--font-mono);
+            font-size: var(--text-2xl);
+            letter-spacing: 0.2em;
+            color: var(--accent-calm);
+        }
+
+        .auth__otp-note {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            margin-top: var(--space-2);
+        }
+
+        .auth__error {
+            background: var(--bg-secondary);
+            border-left: 2px solid var(--accent-alert);
+            padding: var(--space-3) var(--space-4);
+            margin-bottom: var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--accent-alert);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            display: none;
+        }
+
+        .auth__success {
+            background: var(--bg-secondary);
+            border-left: 2px solid var(--accent-calm);
+            padding: var(--space-3) var(--space-4);
+            margin-bottom: var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--accent-calm);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="../index.html" class="nav__logo">AXION</a>
+        </nav>
+
+        <!-- Auth -->
+        <div class="auth">
+            <div class="auth__container">
+                <div class="auth__header">
+                    <div class="auth-card__logo">AXION<sub
+                            style="font-size: 0.6em; font-weight: 400; opacity: 0.6; margin-left: 2px;">sync</sub></div>
+                    <h1 class="auth__title">Sign In</h1>
+                    <p class="auth__desc">Access your cycle data</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="auth__tabs">
+                    <button class="auth__tab active" data-tab="email" id="tab-email">Email</button>
+                    <button class="auth__tab" data-tab="local" id="tab-local">Local Profile</button>
+                </div>
+
+                <!-- Email Form -->
+                <div class="auth__form" id="form-email">
+                    <div class="auth__error" id="error-email"></div>
+                    <div class="auth__success" id="success-email"></div>
+
+                    <!-- Step 1: Enter Email -->
+                    <div id="email-step-1">
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" id="email-input" class="form-input" placeholder="your@email.com"
+                                required>
+                        </div>
+                        <button type="button" class="btn btn--primary" style="width: 100%; margin-top: var(--space-4);"
+                            id="btn-send-otp">
+                            Send Verification Code
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Enter OTP -->
+                    <div id="email-step-2" style="display: none;">
+                        <div class="auth__otp-display" id="otp-display-container">
+                            <div class="auth__otp-note">Demo Mode - Your verification code:</div>
+                            <div class="auth__otp-code" id="otp-display">------</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Verification Code</label>
+                            <input type="text" id="otp-input" class="form-input text-mono" placeholder="000000"
+                                maxlength="6" style="text-align: center; letter-spacing: 0.2em;">
+                        </div>
+                        <button type="button" class="btn btn--primary" style="width: 100%; margin-top: var(--space-4);"
+                            id="btn-verify-otp">
+                            Verify
+                        </button>
+                        <button type="button" class="btn btn--ghost" style="width: 100%; margin-top: var(--space-2);"
+                            id="btn-back-email">
+                            Back
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Local Profile Form -->
+                <div class="auth__form hidden" id="form-local">
+                    <div class="auth__error" id="error-local"></div>
+                    <div class="auth__success" id="success-local"></div>
+
+                    <!-- Tabs for Login/Create -->
+                    <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4);">
+                        <button class="btn btn--secondary" style="flex: 1;" id="local-login-tab">Sign In</button>
+                        <button class="btn btn--ghost" style="flex: 1;" id="local-create-tab">Create</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" id="local-name" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="local-password" class="form-input" placeholder="Enter password"
+                            required>
+                    </div>
+                    <button type="button" class="btn btn--primary" style="width: 100%; margin-top: var(--space-4);"
+                        id="btn-local-submit">
+                        Sign In
+                    </button>
+                </div>
+
+                <p
+                    style="text-align: center; margin-top: var(--space-6); font-size: var(--text-sm); color: var(--text-muted);">
+                    Your data remains private and stored locally.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth.js"></script>
+
+    <script>
+        let currentLocalMode = 'login';
+        let pendingEmail = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already authenticated
+            if (window.AxionAuth.isAuthenticated()) {
+                window.location.href = 'settings.html';
+                return;
+            }
+
+            initTabs();
+            initEmailFlow();
+            initLocalFlow();
+        });
+
+        function initTabs() {
+            const tabs = document.querySelectorAll('.auth__tab');
+            const emailForm = document.getElementById('form-email');
+            const localForm = document.getElementById('form-local');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    if (tab.dataset.tab === 'email') {
+                        emailForm.classList.remove('hidden');
+                        localForm.classList.add('hidden');
+                    } else {
+                        emailForm.classList.add('hidden');
+                        localForm.classList.remove('hidden');
+                    }
+                });
+            });
+        }
+
+        function initEmailFlow() {
+            const btnSendOtp = document.getElementById('btn-send-otp');
+            const btnVerifyOtp = document.getElementById('btn-verify-otp');
+            const btnBack = document.getElementById('btn-back-email');
+            const step1 = document.getElementById('email-step-1');
+            const step2 = document.getElementById('email-step-2');
+
+            btnSendOtp.addEventListener('click', () => {
+                const email = document.getElementById('email-input').value.trim();
+                if (!email || !email.includes('@')) {
+                    showError('email', 'Enter a valid email address');
+                    return;
+                }
+
+                pendingEmail = email;
+                const otp = window.AxionAuth.initiateEmailOTP(email);
+
+                document.getElementById('otp-display').textContent = otp;
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+                hideError('email');
+            });
+
+            btnVerifyOtp.addEventListener('click', () => {
+                const code = document.getElementById('otp-input').value.trim();
+                if (!code || code.length !== 6) {
+                    showError('email', 'Enter the 6-digit code');
+                    return;
+                }
+
+                const profile = window.AxionAuth.verifyEmailOTP(pendingEmail, code);
+                if (profile) {
+                    showSuccess('email', 'Verified. Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'settings.html';
+                    }, 1000);
+                } else {
+                    showError('email', 'Invalid or expired code');
+                }
+            });
+
+            btnBack.addEventListener('click', () => {
+                step1.style.display = 'block';
+                step2.style.display = 'none';
+                document.getElementById('otp-input').value = '';
+            });
+        }
+
+        function initLocalFlow() {
+            const loginTab = document.getElementById('local-login-tab');
+            const createTab = document.getElementById('local-create-tab');
+            const submitBtn = document.getElementById('btn-local-submit');
+
+            loginTab.addEventListener('click', () => {
+                currentLocalMode = 'login';
+                loginTab.className = 'btn btn--secondary';
+                createTab.className = 'btn btn--ghost';
+                submitBtn.textContent = 'Sign In';
+            });
+
+            createTab.addEventListener('click', () => {
+                currentLocalMode = 'create';
+                loginTab.className = 'btn btn--ghost';
+                createTab.className = 'btn btn--secondary';
+                submitBtn.textContent = 'Create Profile';
+            });
+
+            submitBtn.addEventListener('click', () => {
+                const name = document.getElementById('local-name').value.trim();
+                const password = document.getElementById('local-password').value;
+
+                if (!name || !password) {
+                    showError('local', 'Enter name and password');
+                    return;
+                }
+
+                if (password.length < 4) {
+                    showError('local', 'Password must be at least 4 characters');
+                    return;
+                }
+
+                if (currentLocalMode === 'create') {
+                    const profile = window.AxionAuth.createLocalProfile(name, password);
+                    showSuccess('local', 'Profile created. Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'settings.html';
+                    }, 1000);
+                } else {
+                    const profile = window.AxionAuth.loginLocal(name, password);
+                    if (profile) {
+                        showSuccess('local', 'Signed in. Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = 'settings.html';
+                        }, 1000);
+                    } else {
+                        showError('local', 'Invalid name or password');
+                    }
+                }
+            });
+        }
+
+        function showError(form, message) {
+            const el = document.getElementById('error-' + form);
+            el.textContent = message;
+            el.style.display = 'block';
+            document.getElementById('success-' + form).style.display = 'none';
+        }
+
+        function hideError(form) {
+            document.getElementById('error-' + form).style.display = 'none';
+        }
+
+        function showSuccess(form, message) {
+            const el = document.getElementById('success-' + form);
+            el.textContent = message;
+            el.style.display = 'block';
+            document.getElementById('error-' + form).style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
