@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Partner view - Receive supportive notifications to better understand and support your partner.">
+    <title>Partner View - MoodSync</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+
+    <style>
+        .partner-view {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partner-view__bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            z-index: -2;
+        }
+
+        .partner-view__blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .partner-view__blob--1 {
+            width: 600px;
+            height: 600px;
+            background: var(--primary-400);
+            top: -200px;
+            right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .partner-view__blob--2 {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary-400);
+            bottom: -100px;
+            left: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        /* Header */
+        .partner-header {
+            padding: var(--space-6) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .partner-header .nav__logo {
+            color: white;
+        }
+
+        .partner-header .nav__link {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .partner-header .nav__link:hover {
+            color: white;
+        }
+
+        /* Main Content */
+        .partner-main {
+            padding: var(--space-12) 0;
+        }
+
+        .partner-main__inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Link Form */
+        .link-form {
+            text-align: center;
+            padding: var(--space-10);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .link-form__icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin: 0 auto var(--space-6);
+            box-shadow: 0 0 60px rgba(255, 107, 138, 0.4);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .link-form h1 {
+            color: white;
+            font-size: var(--text-3xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .link-form p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: var(--space-8);
+        }
+
+        .link-form .form-group {
+            text-align: left;
+        }
+
+        .link-form .form-label {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .link-form .form-input {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .link-form .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .link-form .form-input:focus {
+            border-color: var(--primary-400);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .code-input {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl) !important;
+            text-align: center;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Partner Dashboard */
+        .partner-dashboard {
+            display: none;
+        }
+
+        .partner-dashboard.active {
+            display: block;
+        }
+
+        .partner-welcome {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .partner-welcome h1 {
+            color: white;
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-4);
+        }
+
+        .partner-welcome p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: var(--text-lg);
+        }
+
+        /* Notification Card (Large) */
+        .notification-hero {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: var(--space-10);
+            text-align: center;
+            margin-bottom: var(--space-8);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .notification-hero__emoji {
+            font-size: 80px;
+            margin-bottom: var(--space-4);
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .notification-hero__phase {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-4);
+        }
+
+        .notification-hero__message {
+            color: white;
+            font-size: var(--text-2xl);
+            font-weight: var(--font-semibold);
+            line-height: 1.4;
+            margin-bottom: var(--space-6);
+        }
+
+        .notification-hero__tip {
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            text-align: left;
+        }
+
+        .notification-hero__tip-label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: #FFD700;
+            font-weight: var(--font-semibold);
+            font-size: var(--text-sm);
+            margin-bottom: var(--space-2);
+        }
+
+        .notification-hero__tip p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-size: var(--text-base);
+            line-height: 1.6;
+        }
+
+        /* Quick Actions for Partner */
+        .partner-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+
+        .partner-action {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space-6);
+            text-align: center;
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .partner-action:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .partner-action__icon {
+            font-size: 32px;
+            margin-bottom: var(--space-3);
+        }
+
+        .partner-action__label {
+            color: white;
+            font-weight: var(--font-medium);
+            font-size: var(--text-sm);
+        }
+
+        /* Cycle Day Indicator */
+        .cycle-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-8);
+            margin-top: var(--space-8);
+            padding: var(--space-6);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+        }
+
+        .cycle-indicator__item {
+            text-align: center;
+        }
+
+        .cycle-indicator__value {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: white;
+        }
+
+        .cycle-indicator__label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: var(--text-sm);
+        }
+
+        /* Footer */
+        .partner-footer {
+            text-align: center;
+            padding: var(--space-8) 0;
+            margin-top: var(--space-8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .partner-footer p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: var(--text-sm);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .partner-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .cycle-indicator {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+
+            .notification-hero__message {
+                font-size: var(--text-xl);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="partner-view">
+        <div class="partner-view__bg"></div>
+        <div class="partner-view__blob partner-view__blob--1"></div>
+        <div class="partner-view__blob partner-view__blob--2"></div>
+
+        <!-- Header -->
+        <header class="partner-header">
+            <div class="container">
+                <nav class="nav">
+                    <a href="../index.html" class="nav__logo">
+                        <span class="nav__logo-icon">💕</span>
+                        MoodSync
+                    </a>
+                    <ul class="nav__links">
+                        <li><a href="../index.html" class="nav__link">Home</a></li>
+                        <li><a href="dashboard.html" class="nav__link">Her Dashboard</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="partner-main">
+            <div class="container">
+                <div class="partner-main__inner">
+
+                    <!-- Link Form (shown if not linked) -->
+                    <div class="link-form" id="link-form">
+                        <div class="link-form__icon">💌</div>
+                        <h1>Partner Access</h1>
+                        <p>Enter the code your partner shared with you to receive supportive notifications.</p>
+
+                        <form id="partner-link-form">
+                            <div class="form-group">
+                                <label class="form-label">Your Name</label>
+                                <input type="text" name="name" class="form-input" placeholder="Enter your name"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Partner Code</label>
+                                <input type="text" name="linkCode" class="form-input code-input" placeholder="XXXXXX"
+                                    maxlength="6" required>
+                            </div>
+
+                            <button type="submit" class="btn btn--primary btn--large"
+                                style="width: 100%; margin-top: var(--space-4);">
+                                Connect 💕
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Partner Dashboard (shown when linked) -->
+                    <div class="partner-dashboard" id="partner-dashboard">
+                        <div class="partner-welcome">
+                            <h1>Hey there, <span id="partner-name">Partner</span> 💕</h1>
+                            <p>Here's what you should know today</p>
+                        </div>
+
+                        <!-- Hero Notification -->
+                        <div class="notification-hero">
+                            <div class="notification-hero__phase" id="hero-phase">
+                                <span id="phase-name">Loading...</span>
+                            </div>
+                            <p class="notification-hero__message" id="hero-message">
+                                Loading today's insight...
+                            </p>
+                            <div class="notification-hero__tip">
+                                <div class="notification-hero__tip-label">
+                                    <span>Tip:</span>
+                                </div>
+                                <p id="hero-tip">Loading tip...</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="partner-actions">
+                            <div class="partner-action" onclick="showSuggestion('comfort')">
+                                <div class="partner-action__label">Comfort Ideas</div>
+                            </div>
+                            <div class="partner-action" onclick="showSuggestion('date')">
+                                <div class="partner-action__label">Date Ideas</div>
+                            </div>
+                            <div class="partner-action" onclick="showSuggestion('gift')">
+                                <div class="partner-action__label">Gift Ideas</div>
+                            </div>
+                        </div>
+
+                        <!-- Cycle Info -->
+                        <div class="cycle-indicator">
+                            <div class="cycle-indicator__item">
+                                <div class="cycle-indicator__value" id="cycle-day">--</div>
+                                <div class="cycle-indicator__label">Cycle Day</div>
+                            </div>
+                            <div class="cycle-indicator__item">
+                                <div class="cycle-indicator__value" id="days-until">--</div>
+                                <div class="cycle-indicator__label">Days Until Period</div>
+                            </div>
+                        </div>
+
+                        <!-- Notification Setup -->
+                        <div class="notification-setup" id="notification-setup"
+                            style="margin-top: var(--space-8); padding: var(--space-6); background: rgba(255, 107, 138, 0.15); border-radius: var(--radius-xl); border: 1px solid rgba(255, 107, 138, 0.3);">
+                            <div style="margin-bottom: var(--space-4);">
+                                <h4 style="color: white; margin-bottom: 4px;">Enable Desktop Notifications</h4>
+                                <p style="color: rgba(255,255,255,0.7); font-size: var(--text-sm); margin: 0;">Get
+                                    daily reminders about her current phase</p>
+                            </div>
+                            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                                <button class="btn btn--primary" id="enable-notifications-btn"
+                                    onclick="enableNotifications()">
+                                    Enable Notifications
+                                </button>
+                                <button class="btn btn--secondary" id="test-notification-btn"
+                                    onclick="testNotification()" style="display: none;">
+                                    Test Notification
+                                </button>
+                            </div>
+                            <p id="notification-status"
+                                style="color: rgba(255,255,255,0.6); font-size: var(--text-sm); margin-top: var(--space-3); margin-bottom: 0;">
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="partner-footer">
+            <div class="container">
+                <p>MoodSync helps partners understand each other better 💕</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/cycle.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/desktop-notifications.js"></script>
+    <script src="../js/app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkPartnerAccess();
+        });
+
+        function checkPartnerAccess() {
+            const partner = window.MoodSyncStorage.getPartnerProfile();
+            const user = window.MoodSyncStorage.getUserProfile();
+
+            // If we have user data (same device) or partner is linked
+            if (user && user.lastPeriodDate) {
+                showPartnerDashboard(partner?.name || 'Partner');
+            } else if (partner && partner.linkCode) {
+                // Partner linked but on different device - would need server in real app
+                showPartnerDashboard(partner.name);
+            }
+        }
+
+        function showPartnerDashboard(name) {
+            document.getElementById('link-form').style.display = 'none';
+            document.getElementById('partner-dashboard').classList.add('active');
+            document.getElementById('partner-name').textContent = name;
+
+            updatePartnerView();
+        }
+
+        function updatePartnerView() {
+            const user = window.MoodSyncStorage.getUserProfile();
+
+            if (!user || !user.lastPeriodDate) {
+                // Demo mode - show example data
+                document.getElementById('phase-name').textContent = 'Demo Mode';
+                document.getElementById('hero-message').textContent = 'Link with your partner to see their cycle insights.';
+                document.getElementById('hero-tip').textContent = 'Ask your partner to share their MoodSync code with you.';
+                return;
+            }
+
+            const cycleInfo = window.MoodSyncCycle.getCycleInfo(user.lastPeriodDate, user.cycleLength);
+            const notification = window.MoodSyncCycle.getPartnerNotification(cycleInfo);
+
+            // Update hero
+            document.getElementById('phase-name').textContent = notification.phase;
+            document.getElementById('hero-message').textContent = notification.message;
+            document.getElementById('hero-tip').textContent = notification.tip;
+
+            // Update cycle info
+            document.getElementById('cycle-day').textContent = cycleInfo.currentDay;
+            document.getElementById('days-until').textContent = cycleInfo.daysUntilNext;
+        }
+
+        function showSuggestion(type) {
+            const suggestions = {
+                comfort: {
+                    title: '🫂 Comfort Ideas',
+                    items: [
+                        'Bring her favorite comfort food or snacks',
+                        'Offer a warm heating pad or hot water bottle',
+                        'Run her a relaxing bath with candles',
+                        'Watch her favorite comfort movie together',
+                        'Give her a gentle back or foot massage',
+                        'Make her a cup of soothing tea'
+                    ]
+                },
+                date: {
+                    title: '🌹 Date Ideas',
+                    items: [
+                        'Cozy movie night at home with blankets',
+                        'Picnic in a quiet, scenic spot',
+                        'Cook her favorite meal together',
+                        'Stargazing with hot cocoa',
+                        'Spa day at home with face masks',
+                        'Take a scenic drive to nowhere'
+                    ]
+                },
+                gift: {
+                    title: '🎁 Thoughtful Gift Ideas',
+                    items: [
+                        'Her favorite chocolate or treats',
+                        'A soft, cozy blanket or socks',
+                        'A heartfelt handwritten note',
+                        'Fresh flowers to brighten her day',
+                        'A playlist of songs that remind you of her',
+                        'A voucher for "one free favor of her choice"'
+                    ]
+                }
+            };
+
+            const suggestion = suggestions[type];
+            const itemsHtml = suggestion.items.map(item => `
+        <li style="padding: 8px 0; color: var(--neutral-600); border-bottom: 1px solid var(--neutral-100);">
+          ${item}
+        </li>
+      `).join('');
+
+            window.MoodSyncApp.showModal(`
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          ${itemsHtml}
+        </ul>
+      `, { title: suggestion.title });
+        }
+
+        // Notification functions
+        async function enableNotifications() {
+            const statusEl = document.getElementById('notification-status');
+            const enableBtn = document.getElementById('enable-notifications-btn');
+            const testBtn = document.getElementById('test-notification-btn');
+
+            statusEl.textContent = 'Requesting permission...';
+
+            try {
+                const granted = await window.DesktopNotifications.requestPermission();
+
+                if (granted) {
+                    statusEl.textContent = '✅ Notifications enabled! You\'ll receive daily updates.';
+                    statusEl.style.color = '#10B981';
+                    enableBtn.style.display = 'none';
+                    testBtn.style.display = 'inline-flex';
+
+                    // Start daily check
+                    window.DesktopNotifications.startDailyCheck();
+
+                    // Show success toast
+                    window.MoodSyncNotifications.showToast('Notifications enabled! 🔔', 'success');
+                } else {
+                    statusEl.textContent = '❌ Permission denied. Please enable in browser settings.';
+                    statusEl.style.color = '#EF4444';
+                }
+            } catch (error) {
+                statusEl.textContent = '❌ Error: ' + error.message;
+                statusEl.style.color = '#EF4444';
+            }
+        }
+
+        function testNotification() {
+            const user = window.MoodSyncStorage.getUserProfile();
+
+            if (user && user.lastPeriodDate) {
+                const cycleInfo = window.MoodSyncCycle.getCycleInfo(user.lastPeriodDate, user.cycleLength);
+                window.DesktopNotifications.sendPartnerNotification(cycleInfo);
+            } else {
+                window.DesktopNotifications.sendTestNotification();
+            }
+
+            window.MoodSyncNotifications.showToast('Check your desktop notifications! 📲', 'info');
+        }
+
+        // Check notification status on load
+        function checkNotificationStatus() {
+            if (window.DesktopNotifications && window.DesktopNotifications.permission === 'granted') {
+                const statusEl = document.getElementById('notification-status');
+                const enableBtn = document.getElementById('enable-notifications-btn');
+                const testBtn = document.getElementById('test-notification-btn');
+
+                if (statusEl && enableBtn && testBtn) {
+                    statusEl.textContent = '✅ Notifications are enabled!';
+                    statusEl.style.color = '#10B981';
+                    enableBtn.style.display = 'none';
+                    testBtn.style.display = 'inline-flex';
+
+                    // Start daily check
+                    window.DesktopNotifications.startDailyCheck();
+                }
+            }
+        }
+
+        // Run after page loads
+        setTimeout(checkNotificationStatus, 500);
+    </script>
+</body>
+
+</html>
