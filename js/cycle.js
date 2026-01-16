@@ -1,5 +1,5 @@
 /**
- * MoodSync - Cycle Prediction Engine
+ * Axion - Cycle Prediction Engine
  * Calculates current cycle phase and generates appropriate messages
  */
 
@@ -182,7 +182,7 @@ function getPartnerNotification(cycleInfo) {
 }
 
 // Export for use in other modules
-window.MoodSyncCycle = {
+window.AxionCycle = {
     CYCLE_PHASES,
     daysSinceLastPeriod,
     getCurrentCycleDay,
@@ -192,5 +192,8 @@ window.MoodSyncCycle = {
     getCycleInfo,
     formatDate,
     getPhaseProgress,
-    getPartnerNotification
+    getPartnerNotification,
+    getPartnerNotificationAsync
 };
+// Legacy alias
+window.MoodSyncCycle = window.AxionCycle;
