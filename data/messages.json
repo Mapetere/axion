@@ -1,5 +1,13 @@
 {
     "version": "1.0.0",
     "description": "Axion notification messages database",
-    "phases": {}
+    "phases": {
+        "peak_sensitivity": {
+            "displayName": "Peak Sensitivity",
+            "intent": "Awareness and caution",
+            "temperature": "High",
+            "urgency": "Low",
+            "messages": []
+        }
+    }
 }
