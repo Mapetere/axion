@@ -1,5 +1,5 @@
 /**
- * MoodSync - Notifications Module
+ * Axion - Notifications Module
  * Handles browser notifications and in-app alerts
  */
 
@@ -48,10 +48,10 @@ function showBrowserNotification(title, options = {}) {
     }
 
     const defaultOptions = {
-        icon: '/icons/moodsync-icon.png',
-        badge: '/icons/moodsync-badge.png',
+        icon: '/icons/axion-icon.png',
+        badge: '/icons/axion-badge.png',
         vibrate: [200, 100, 200],
-        tag: 'moodsync-notification',
+        tag: 'axion-notification',
         requireInteraction: false,
         ...options
     };
@@ -165,7 +165,7 @@ function createNotificationCard(notification) {
       ${notification.emoji || '💌'}
     </div>
     <div class="notification-card__content">
-      <h4>${notification.title || notification.phase || 'MoodSync Update'}</h4>
+      <h4>${notification.title || notification.phase || 'Axion Update'}</h4>
       <p>${notification.message}</p>
       ${notification.tip ? `<p class="notification-card__tip" style="margin-top: 8px; font-style: italic; color: var(--neutral-500);">💡 ${notification.tip}</p>` : ''}
     </div>
@@ -195,9 +195,9 @@ function showPartnerNotification(cycleInfo) {
 
     // Show browser notification
     if (areNotificationsEnabled()) {
-        showBrowserNotification(`${notification.emoji} MoodSync`, {
+        showBrowserNotification(`Axion`, {
             body: notification.message,
-            tag: 'moodsync-partner-notification'
+            tag: 'axion-partner-notification'
         });
     }
 
@@ -216,7 +216,7 @@ function scheduleDailyNotification() {
 }
 
 // Export for use in other modules
-window.MoodSyncNotifications = {
+window.AxionNotifications = {
     NOTIFICATION_TYPES,
     requestNotificationPermission,
     areNotificationsEnabled,
@@ -227,3 +227,5 @@ window.MoodSyncNotifications = {
     scheduleDailyNotification,
     getPhaseColor
 };
+// Legacy alias
+window.MoodSyncNotifications = window.AxionNotifications;
