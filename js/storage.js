@@ -1,15 +1,15 @@
 /**
- * MoodSync - Storage Module
+ * Axion - Storage Module
  * Handles localStorage operations for user data
  */
 
 const STORAGE_KEYS = {
-    USER_PROFILE: 'moodsync_user_profile',
-    PARTNER_PROFILE: 'moodsync_partner_profile',
-    PERIOD_HISTORY: 'moodsync_period_history',
-    MOOD_ENTRIES: 'moodsync_mood_entries',
-    SETTINGS: 'moodsync_settings',
-    LINK_CODE: 'moodsync_link_code'
+    USER_PROFILE: 'axion_user_profile',
+    PARTNER_PROFILE: 'axion_partner_profile',
+    PERIOD_HISTORY: 'axion_period_history',
+    MOOD_ENTRIES: 'axion_mood_entries',
+    SETTINGS: 'axion_settings',
+    LINK_CODE: 'axion_link_code'
 };
 
 /**
@@ -220,7 +220,7 @@ function isPartnerLinked() {
 }
 
 // Export for use in other modules
-window.MoodSyncStorage = {
+window.AxionStorage = {
     STORAGE_KEYS,
     saveData,
     loadData,
@@ -245,3 +245,5 @@ window.MoodSyncStorage = {
     isOnboarded,
     isPartnerLinked
 };
+// Legacy alias for compatibility
+window.MoodSyncStorage = window.AxionStorage;
