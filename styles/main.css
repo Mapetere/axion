@@ -1,42 +1,39 @@
-/* Axion Design System - Calm Redesign */
-/* Spacecraft instrumentation meets emotional intelligence */
-
 /* ============================================
-   CSS Variables - Dark Slate Theme
+   CSS Variables - Dark Theme (Default)
    ============================================ */
 :root {
-  /* Background Colors */
-  --bg-primary: #1a1d21;
-  --bg-secondary: #252830;
-  --bg-card: #2d3139;
-  --bg-elevated: #353a44;
-  
+  /* Background Colors - Near Black */
+  --bg-primary: #0d0f11;
+  --bg-secondary: #15171a;
+  --bg-card: #1a1d21;
+  --bg-elevated: #22262b;
+
   /* Text Colors */
   --text-primary: #e8e9eb;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
-  
+
   /* Accent Colors - Desaturated */
   --accent-calm: #5a7d7c;
   --accent-calm-dim: #4a6665;
   --accent-alert: #a07d7a;
   --accent-alert-dim: #8a6a67;
   --accent-neutral: #7a7d80;
-  
+
   /* Phase Colors - Muted */
   --phase-menstrual: #8a6b6b;
   --phase-follicular: #6b8a7a;
   --phase-ovulation: #7a7b8a;
   --phase-luteal: #8a847a;
-  
+
   /* Borders */
-  --border-subtle: #3d4451;
-  --border-visible: #4d5461;
-  
+  --border-subtle: #252830;
+  --border-visible: #353a44;
+
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
-  
+
   /* Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -45,12 +42,12 @@
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
-  
+
   /* Font Weights */
   --font-normal: 400;
   --font-medium: 500;
   --font-semibold: 600;
-  
+
   /* Spacing */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -63,21 +60,47 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --space-20: 5rem;
-  
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
-  
-  /* Transitions - Subtle opacity only */
+
+  /* Transitions - Subtle opacity only, ≤150ms */
   --transition-fast: opacity 100ms ease;
   --transition-base: opacity 150ms ease;
 }
 
 /* ============================================
+   Light Theme
+   ============================================ */
+[data-theme="light"] {
+  /* Background Colors - Off-white/Light Gray */
+  --bg-primary: #f5f6f7;
+  --bg-secondary: #ebedf0;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+
+  /* Text Colors */
+  --text-primary: #1a1d21;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+
+  /* Accent Colors - Same desaturated palette */
+  --accent-calm: #4a6665;
+  --accent-calm-dim: #3d5554;
+
+  /* Borders */
+  --border-subtle: #e5e7eb;
+  --border-visible: #d1d5db;
+}
+
+/* ============================================
    Base Styles
    ============================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -102,17 +125,31 @@ body {
 /* ============================================
    Typography
    ============================================ */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: var(--font-semibold);
   line-height: 1.3;
   color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
-h1 { font-size: var(--text-3xl); }
-h2 { font-size: var(--text-2xl); }
-h3 { font-size: var(--text-xl); }
-h4 { font-size: var(--text-lg); }
+h1 {
+  font-size: var(--text-3xl);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+h4 {
+  font-size: var(--text-lg);
+}
 
 p {
   color: var(--text-secondary);
@@ -512,9 +549,26 @@ p {
 /* ============================================
    Utility Classes
    ============================================ */
-.text-center { text-align: center; }
-.mt-4 { margin-top: var(--space-4); }
-.mt-6 { margin-top: var(--space-6); }
-.mt-8 { margin-top: var(--space-8); }
-.mb-4 { margin-bottom: var(--space-4); }
-.mb-6 { margin-bottom: var(--space-6); }
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: var(--space-4);
+}
+
+.mt-6 {
+  margin-top: var(--space-6);
+}
+
+.mt-8 {
+  margin-top: var(--space-8);
+}
+
+.mb-4 {
+  margin-bottom: var(--space-4);
+}
+
+.mb-6 {
+  margin-bottom: var(--space-6);
+}
