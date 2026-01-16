@@ -9,7 +9,8 @@
             "urgency": "Low",
             "messages": [
                 "Elevated sensitivity phase currently active; operational margins temporarily reduced.",
-                "System state indicates heightened reactivity threshold in effect."
+                "System state indicates heightened reactivity threshold in effect.",
+                "Phase transition detected; friction tolerance operating below baseline."
             ]
         }
     }
