@@ -1,9 +1,9 @@
 /**
- * MoodSync Service Worker
+ * Axion Service Worker
  * Enables push notifications and offline support
  */
 
-const CACHE_NAME = 'moodsync-v1';
+const CACHE_NAME = 'axion-v1';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -12,9 +12,13 @@ const urlsToCache = [
     '/js/cycle.js',
     '/js/storage.js',
     '/js/notifications.js',
+    '/js/messages-db.js',
     '/js/app.js',
+    '/data/messages.json',
     '/pages/dashboard.html',
     '/pages/partner.html',
+    '/pages/settings.html',
+    '/pages/auth.html',
     '/pages/onboarding.html'
 ];
 
@@ -23,11 +27,11 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('MoodSync: Caching app shell');
+                console.log('Axion: Caching app shell');
                 return cache.addAll(urlsToCache);
             })
             .catch((err) => {
-                console.log('MoodSync: Cache failed, continuing anyway', err);
+                console.log('Axion: Cache failed, continuing anyway', err);
             })
     );
     self.skipWaiting();
@@ -62,8 +66,8 @@ self.addEventListener('fetch', (event) => {
 // Push notification event
 self.addEventListener('push', (event) => {
     let data = {
-        title: '💕 MoodSync',
-        body: 'Check in with your partner today!',
+        title: 'Axion',
+        body: 'System state update available.',
         icon: '/icons/icon-192.png',
         badge: '/icons/badge-72.png'
     };
@@ -81,10 +85,10 @@ self.addEventListener('push', (event) => {
         icon: data.icon || '/icons/icon-192.png',
         badge: data.badge || '/icons/badge-72.png',
         vibrate: [200, 100, 200],
-        tag: 'moodsync-notification',
+        tag: 'axion-notification',
         requireInteraction: true,
         actions: [
-            { action: 'open', title: 'Open MoodSync' },
+            { action: 'open', title: 'Open Axion' },
             { action: 'dismiss', title: 'Dismiss' }
         ],
         data: {
@@ -110,7 +114,7 @@ self.addEventListener('notificationclick', (event) => {
             .then((clientList) => {
                 // Focus existing window if open
                 for (const client of clientList) {
-                    if (client.url.includes('moodsync') || client.url.includes('partner')) {
+                    if (client.url.includes('axion') || client.url.includes('partner')) {
                         return client.focus();
                     }
                 }
@@ -122,24 +126,22 @@ self.addEventListener('notificationclick', (event) => {
 
 // Periodic sync for daily notifications (if supported)
 self.addEventListener('periodicsync', (event) => {
-    if (event.tag === 'moodsync-daily-check') {
+    if (event.tag === 'axion-daily-check') {
         event.waitUntil(checkAndNotify());
     }
 });
 
 async function checkAndNotify() {
-    // This would check cycle data and send appropriate notification
-    // In a real app, this would fetch from a server
     const notification = {
-        title: '💕 MoodSync Reminder',
-        body: 'Check in on how she\'s feeling today!',
+        title: 'Axion',
+        body: 'Daily system state update available.',
         icon: '/icons/icon-192.png'
     };
 
     return self.registration.showNotification(notification.title, {
         body: notification.body,
         icon: notification.icon,
-        tag: 'moodsync-daily',
+        tag: 'axion-daily',
         requireInteraction: false
     });
 }
