@@ -4,15 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Set up your MoodSync profile to start tracking your cycle and connecting with your partner.">
+  <meta name="description" content="Configure your Axion profile to begin cycle tracking.">
   <title>Get Started - Axion</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
   <!-- Styles -->
@@ -24,271 +23,87 @@
       min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: var(--space-8);
-      position: relative;
-      overflow: hidden;
+      padding: var(--space-12) 0;
     }
 
-    .onboarding__bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--gradient-warm);
-      z-index: -2;
-    }
-
-    .onboarding__blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.5;
-      z-index: -1;
-    }
-
-    .onboarding__blob--1 {
-      width: 500px;
-      height: 500px;
-      background: var(--primary-300);
-      top: -150px;
-      left: -150px;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .onboarding__blob--2 {
-      width: 400px;
-      height: 400px;
-      background: var(--secondary-300);
-      bottom: -100px;
-      right: -100px;
-      animation: float 10s ease-in-out infinite reverse;
-    }
-
-    .onboarding__card {
-      width: 100%;
-      max-width: 480px;
+    .onboarding__form {
+      max-width: 400px;
+      margin: 0 auto;
     }
 
     .onboarding__header {
-      text-align: center;
       margin-bottom: var(--space-8);
     }
 
-    .onboarding__icon {
-      width: 80px;
-      height: 80px;
-      background: var(--gradient-primary);
-      border-radius: var(--radius-2xl);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      margin: 0 auto var(--space-4);
-      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    .onboarding__badge {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-calm);
+      margin-bottom: var(--space-3);
     }
 
     .onboarding__title {
-      font-size: var(--text-3xl);
-      margin-bottom: var(--space-2);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
     }
 
-    .onboarding__subtitle {
-      color: var(--neutral-500);
-      margin: 0;
-    }
-
-    .form-group label {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-
-    .form-group label span {
-      font-size: 18px;
-    }
-
-    .form-hint {
-      font-size: var(--text-sm);
-      color: var(--neutral-500);
-      margin-top: var(--space-1);
-    }
-
-    .form-actions {
-      margin-top: var(--space-8);
-    }
-
-    .form-actions .btn {
-      width: 100%;
-    }
-
-    .onboarding__footer {
-      text-align: center;
-      margin-top: var(--space-6);
-      padding-top: var(--space-6);
-      border-top: 1px solid var(--neutral-200);
-    }
-
-    .onboarding__footer p {
-      font-size: var(--text-sm);
-      margin: 0;
-    }
-
-    .onboarding__link {
-      color: var(--primary-500);
-      font-weight: var(--font-medium);
-    }
-
-    /* Partner Section */
-    .section-divider {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      margin: var(--space-8) 0;
-    }
-
-    .section-divider__line {
-      flex: 1;
-      height: 1px;
-      background: var(--neutral-300);
-    }
-
-    .section-divider__text {
-      font-size: var(--text-sm);
-      color: var(--neutral-500);
-      font-weight: var(--font-medium);
-    }
-
-    .partner-option {
-      text-align: center;
-      padding: var(--space-6);
-      background: var(--secondary-100);
-      border-radius: var(--radius-xl);
-      margin-top: var(--space-4);
-    }
-
-    .partner-option h4 {
-      font-size: var(--text-lg);
-      margin-bottom: var(--space-2);
-      color: var(--secondary-500);
-    }
-
-    .partner-option p {
-      font-size: var(--text-sm);
-      margin-bottom: var(--space-4);
-    }
-
-    /* Progress Indicator */
-    .progress {
-      display: flex;
-      justify-content: center;
-      gap: var(--space-2);
-      margin-bottom: var(--space-8);
-    }
-
-    .progress__dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--neutral-300);
-      transition: all var(--transition-base);
-    }
-
-    .progress__dot--active {
-      background: var(--primary-400);
-      width: 30px;
-      border-radius: 5px;
-    }
-
-    .progress__dot--done {
-      background: var(--accent-mint);
-    }
-
-    @media (max-width: 480px) {
-      .onboarding {
-        padding: var(--space-4);
-      }
-
-      .onboarding__card {
-        padding: var(--space-6);
-      }
+    .onboarding__desc {
+      color: var(--text-secondary);
+      font-size: var(--text-base);
     }
   </style>
 </head>
 
 <body>
-  <div class="onboarding">
-    <div class="onboarding__bg"></div>
-    <div class="onboarding__blob onboarding__blob--1"></div>
-    <div class="onboarding__blob onboarding__blob--2"></div>
+  <div class="container">
+    <!-- Navigation -->
+    <nav class="nav">
+      <a href="../index.html" class="nav__logo">AXION</a>
+    </nav>
 
-    <div class="onboarding__card glass-card animate-fade-in-scale">
-      <!-- Progress -->
-      <div class="progress">
-        <div class="progress__dot progress__dot--active"></div>
-        <div class="progress__dot"></div>
-        <div class="progress__dot"></div>
-      </div>
-
-      <!-- Header -->
-      <div class="onboarding__header">
-        <div class="onboarding__icon animate-heartbeat">🌸</div>
-        <h1 class="onboarding__title">Welcome to MoodSync</h1>
-        <p class="onboarding__subtitle">Let's set up your cycle tracking</p>
-      </div>
-
-      <!-- Form -->
-      <form id="onboarding-form">
-        <div class="form-group">
-          <label class="form-label">
-            <span>💕</span> Your Name
-          </label>
-          <input type="text" name="name" class="form-input" placeholder="Enter your name" required>
+    <!-- Onboarding -->
+    <div class="onboarding">
+      <div class="onboarding__form">
+        <div class="onboarding__header">
+          <div class="onboarding__badge">Configuration</div>
+          <h1 class="onboarding__title">Set Up Your Profile</h1>
+          <p class="onboarding__desc">Enter your cycle information to begin tracking.</p>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">
-            <span>📅</span> Average Cycle Length
-          </label>
-          <input type="number" name="cycleLength" class="form-input" value="28" min="21" max="40">
-          <p class="form-hint">Most cycles are between 21-35 days. Default is 28.</p>
-        </div>
+        <form id="onboarding-form">
+          <div class="form-group">
+            <label class="form-label">Name (optional)</label>
+            <input type="text" name="name" class="form-input" placeholder="Your name">
+          </div>
 
-        <div class="form-group">
-          <label class="form-label">
-            <span>🩸</span> First Day of Last Period
-          </label>
-          <input type="date" name="lastPeriodDate" class="form-input" required>
-          <p class="form-hint">This helps us predict your current phase.</p>
-        </div>
+          <div class="form-group">
+            <label class="form-label">Average Cycle Length</label>
+            <select name="cycleLength" class="form-input" required>
+              <option value="26">26 days</option>
+              <option value="27">27 days</option>
+              <option value="28" selected>28 days</option>
+              <option value="29">29 days</option>
+              <option value="30">30 days</option>
+              <option value="31">31 days</option>
+              <option value="32">32 days</option>
+              <option value="35">35 days</option>
+            </select>
+          </div>
 
-        <div class="form-actions">
-          <button type="submit" class="btn btn--primary btn--large btn-ripple">
-            Continue ✨
+          <div class="form-group">
+            <label class="form-label">Last Period Start Date</label>
+            <input type="date" name="lastPeriodDate" class="form-input" required>
+          </div>
+
+          <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: var(--space-6);">
+            Begin Tracking
           </button>
-        </div>
-      </form>
+        </form>
 
-      <!-- Divider -->
-      <div class="section-divider">
-        <div class="section-divider__line"></div>
-        <span class="section-divider__text">or</span>
-        <div class="section-divider__line"></div>
-      </div>
-
-      <!-- Partner Option -->
-      <div class="partner-option">
-        <h4>💬 Are you the partner?</h4>
-        <p>Enter your partner's code to receive supportive notifications.</p>
-        <a href="partner.html" class="btn btn--secondary">
-          Enter Partner Code
-        </a>
-      </div>
-
-      <!-- Footer -->
-      <div class="onboarding__footer">
-        <p>Already have an account? <a href="dashboard.html" class="onboarding__link">Go to Dashboard</a></p>
+        <p style="margin-top: var(--space-6); font-size: var(--text-sm); color: var(--text-muted); text-align: center;">
+          All data is stored locally on your device.
+        </p>
       </div>
     </div>
   </div>
@@ -301,24 +116,37 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Set max date to today
-      const dateInput = document.querySelector('input[name="lastPeriodDate"]');
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.max = today;
-
-      // Set default to approximately last month
-      const defaultDate = new Date();
-      defaultDate.setDate(defaultDate.getDate() - 14);
-      dateInput.value = defaultDate.toISOString().split('T')[0];
-
       // Check if already onboarded
       if (window.MoodSyncStorage.isOnboarded()) {
         const profile = window.MoodSyncStorage.getUserProfile();
-        if (profile) {
-          document.querySelector('input[name="name"]').value = profile.name || '';
-          document.querySelector('input[name="cycleLength"]').value = profile.cycleLength || 28;
-        }
+        document.querySelector('input[name="name"]').value = profile.name || '';
+        document.querySelector('select[name="cycleLength"]').value = profile.cycleLength || 28;
       }
+
+      // Set default date to a week ago
+      const defaultDate = new Date();
+      defaultDate.setDate(defaultDate.getDate() - 7);
+      document.querySelector('input[name="lastPeriodDate"]').value = defaultDate.toISOString().split('T')[0];
+    });
+
+    document.getElementById('onboarding-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const name = formData.get('name');
+      const cycleLength = formData.get('cycleLength');
+      const lastPeriodDate = formData.get('lastPeriodDate');
+
+      if (!lastPeriodDate) {
+        return;
+      }
+
+      // Create profile
+      window.MoodSyncStorage.createUserProfile(name, cycleLength, lastPeriodDate);
+      window.MoodSyncStorage.generateLinkCode();
+
+      // Navigate to dashboard
+      window.location.href = 'dashboard.html';
     });
   </script>
 </body>

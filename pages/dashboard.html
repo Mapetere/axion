@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Track your cycle and share insights with your partner.">
+    <meta name="description" content="Cycle tracking dashboard - View your current phase and share with partner.">
     <title>Dashboard - Axion</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -19,418 +19,154 @@
     <link rel="stylesheet" href="../styles/animations.css">
 
     <style>
-        .dashboard {
-            min-height: 100vh;
-            padding-bottom: var(--space-8);
-        }
-
-        .dashboard__bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--gradient-warm);
-            z-index: -1;
-        }
-
-        .dashboard__header {
-            padding: var(--space-6) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .dashboard__header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .dashboard__greeting h2 {
-            font-size: var(--text-2xl);
-            margin-bottom: var(--space-1);
-        }
-
-        .dashboard__greeting p {
-            color: var(--neutral-500);
-            margin: 0;
-            font-size: var(--text-sm);
-        }
-
-        .dashboard__actions {
-            display: flex;
-            gap: var(--space-3);
-        }
-
-        .dashboard__main {
-            padding: var(--space-8) 0;
-        }
-
-        .dashboard__grid {
+        .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--space-6);
-        }
-
-        .dashboard__cycle-card {
-            grid-column: 1;
-            grid-row: 1 / 3;
-        }
-
-        .cycle-card__header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--space-6);
-        }
-
-        .cycle-card__header h3 {
-            font-size: var(--text-xl);
-            margin-bottom: var(--space-1);
-        }
-
-        .cycle-card__header p {
-            font-size: var(--text-sm);
-            margin: 0;
-        }
-
-        .cycle-card__wheel {
-            display: flex;
-            justify-content: center;
-            margin-bottom: var(--space-6);
-        }
-
-        .cycle-card__phases {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-3);
-        }
-
-        .phase-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            border-radius: var(--radius-lg);
-            background: var(--neutral-100);
-            transition: all var(--transition-fast);
-        }
-
-        .phase-item--active {
-            background: var(--primary-100);
-            box-shadow: inset 0 0 0 2px var(--primary-300);
-        }
-
-        .phase-item__dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .phase-item__name {
-            font-size: var(--text-sm);
-            font-weight: var(--font-medium);
-        }
-
-        /* Info Cards */
-        .info-card {
-            padding: var(--space-6);
-        }
-
-        .info-card__icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: var(--space-4);
-        }
-
-        .info-card__icon--pink {
-            background: var(--primary-100);
-        }
-
-        .info-card__icon--purple {
-            background: var(--secondary-100);
-        }
-
-        .info-card__icon--green {
-            background: #D1FAE5;
-        }
-
-        .info-card h4 {
-            font-size: var(--text-lg);
-            margin-bottom: var(--space-2);
-        }
-
-        .info-card__value {
-            font-family: var(--font-display);
-            font-size: var(--text-3xl);
-            font-weight: var(--font-bold);
-            color: var(--neutral-900);
-            margin-bottom: var(--space-1);
-        }
-
-        .info-card p {
-            font-size: var(--text-sm);
-            margin: 0;
-        }
-
-        /* Partner Section */
-        .partner-section {
-            grid-column: 1 / -1;
-            background: var(--gradient-secondary);
-            color: white;
-        }
-
-        .partner-section h3 {
-            color: white;
-            margin-bottom: var(--space-4);
-        }
-
-        .partner-section p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .partner-code {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-3);
-            background: rgba(255, 255, 255, 0.2);
-            padding: var(--space-3) var(--space-5);
-            border-radius: var(--radius-lg);
-            margin-top: var(--space-4);
-        }
-
-        .partner-code__value {
-            font-family: var(--font-display);
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            letter-spacing: 4px;
-        }
-
-        .partner-code__copy {
-            background: white;
-            color: var(--secondary-500);
-            border: none;
-            padding: var(--space-2) var(--space-3);
-            border-radius: var(--radius-md);
-            font-weight: var(--font-medium);
-            cursor: pointer;
-            font-size: var(--text-sm);
-            transition: all var(--transition-fast);
-        }
-
-        .partner-code__copy:hover {
-            background: var(--neutral-100);
-        }
-
-        /* Message Preview */
-        .message-preview {
-            grid-column: 1 / -1;
-        }
-
-        .message-preview h3 {
-            margin-bottom: var(--space-4);
-        }
-
-        .message-preview__card {
-            display: flex;
-            gap: var(--space-4);
-            padding: var(--space-5);
-            background: var(--neutral-50);
-            border-radius: var(--radius-xl);
-            border-left: 4px solid var(--primary-400);
-        }
-
-        .message-preview__icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-lg);
-            background: var(--primary-100);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            flex-shrink: 0;
-        }
-
-        .message-preview__content h4 {
-            font-size: var(--text-lg);
-            margin-bottom: var(--space-2);
-        }
-
-        .message-preview__content p {
-            margin-bottom: var(--space-3);
-        }
-
-        .message-preview__tip {
-            font-size: var(--text-sm);
-            color: var(--neutral-500);
-            font-style: italic;
-            margin: 0;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            gap: var(--space-3);
             margin-top: var(--space-8);
         }
 
-        /* Responsive */
+        .cycle-display {
+            padding: var(--space-8);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .cycle-display__day {
+            font-family: var(--font-mono);
+            font-size: 4rem;
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .cycle-display__label {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            margin-top: var(--space-2);
+        }
+
+        .cycle-display__phase {
+            margin-top: var(--space-4);
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            display: inline-block;
+            font-size: var(--text-sm);
+            color: var(--accent-calm);
+        }
+
+        .info-panel {
+            padding: var(--space-6);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+        }
+
+        .info-panel__title {
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .info-panel__content {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .partner-code {
+            font-family: var(--font-mono);
+            font-size: var(--text-2xl);
+            letter-spacing: 0.15em;
+            color: var(--text-primary);
+            margin: var(--space-4) 0;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-6);
+        }
+
         @media (max-width: 768px) {
-            .dashboard__grid {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .dashboard__cycle-card {
-                grid-column: 1;
-                grid-row: auto;
-            }
-
-            .partner-section,
-            .message-preview {
-                grid-column: 1;
-            }
-
-            .dashboard__header-inner {
-                flex-direction: column;
-                gap: var(--space-4);
-                text-align: center;
-            }
-
-            .cycle-card__phases {
-                grid-template-columns: 1fr;
-            }
-
-            .quick-actions {
-                flex-direction: column;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="dashboard">
-        <div class="dashboard__bg"></div>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="../index.html" class="nav__logo">AXION</a>
+            <ul class="nav__links">
+                <li><a href="../index.html" class="nav__link">Home</a></li>
+                <li><a href="partner.html" class="nav__link">Partner View</a></li>
+            </ul>
+        </nav>
 
-        <!-- Header -->
-        <header class="dashboard__header">
-            <div class="container">
-                <div class="dashboard__header-inner">
-                    <div class="dashboard__greeting">
-                        <h2 id="greeting">Good morning, beautiful! 🌸</h2>
-                        <p id="date-display">Loading...</p>
-                    </div>
-                    <div class="dashboard__actions">
-                        <button class="btn btn--primary" id="log-period-btn">
-                            🩸 Log Period
-                        </button>
-                        <a href="../index.html" class="btn btn--secondary">
-                            🏠 Home
-                        </a>
-                    </div>
+        <!-- Dashboard Header -->
+        <div class="status" style="padding-top: var(--space-8);">
+            <div class="status__header">
+                <span class="status__brand">Dashboard</span>
+                <span class="status__day" id="current-date"></span>
+            </div>
+
+            <h2 id="greeting" style="margin-bottom: var(--space-2);">Welcome</h2>
+            <p id="status-message" style="color: var(--text-secondary);">Loading cycle data...</p>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Cycle Display -->
+            <div class="cycle-display">
+                <div class="cycle-display__day" id="cycle-day">--</div>
+                <div class="cycle-display__label">Day of <span id="cycle-length">--</span></div>
+                <div class="cycle-display__phase" id="phase-badge">Loading...</div>
+            </div>
+
+            <!-- Next Period -->
+            <div class="info-panel">
+                <div class="info-panel__title">Next Period</div>
+                <div class="info-panel__content">
+                    <div style="font-size: var(--text-2xl); font-weight: var(--font-semibold); color: var(--text-primary);"
+                        id="days-until">--</div>
+                    <div style="color: var(--text-muted);">days remaining</div>
+                    <div style="margin-top: var(--space-3); font-size: var(--text-sm);" id="next-date">--</div>
                 </div>
             </div>
-        </header>
 
-        <!-- Main Content -->
-        <main class="dashboard__main">
-            <div class="container">
-                <div class="dashboard__grid">
-                    <!-- Cycle Visualization -->
-                    <div class="dashboard__cycle-card glass-card animate-fade-in">
-                        <div class="cycle-card__header">
-                            <div>
-                                <h3>Your Cycle</h3>
-                                <p id="cycle-status">Loading...</p>
-                            </div>
-                            <span class="badge badge--primary" id="phase-badge">
-                                <span id="phase-emoji">🌸</span>
-                                <span id="phase-name">Loading</span>
-                            </span>
-                        </div>
-
-                        <div class="cycle-card__wheel" id="cycle-wheel-container">
-                            <!-- Wheel rendered by JS -->
-                        </div>
-
-                        <div class="cycle-card__phases">
-                            <div class="phase-item" data-phase="menstrual">
-                                <div class="phase-item__dot" style="background: #FF6B8A"></div>
-                                <span class="phase-item__name">Menstrual</span>
-                            </div>
-                            <div class="phase-item" data-phase="follicular">
-                                <div class="phase-item__dot" style="background: #10B981"></div>
-                                <span class="phase-item__name">Follicular</span>
-                            </div>
-                            <div class="phase-item" data-phase="ovulation">
-                                <div class="phase-item__dot" style="background: #8B5CF6"></div>
-                                <span class="phase-item__name">Ovulation</span>
-                            </div>
-                            <div class="phase-item" data-phase="luteal">
-                                <div class="phase-item__dot" style="background: #F59E0B"></div>
-                                <span class="phase-item__name">Luteal</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Next Period Card -->
-                    <div class="glass-card info-card animate-fade-in stagger-1">
-                        <div class="info-card__icon info-card__icon--pink">📅</div>
-                        <h4>Next Period</h4>
-                        <div class="info-card__value" id="next-period-days">--</div>
-                        <p id="next-period-date">Loading...</p>
-                    </div>
-
-                    <!-- Today's Insight -->
-                    <div class="glass-card info-card animate-fade-in stagger-2">
-                        <div class="info-card__icon info-card__icon--green">💡</div>
-                        <h4>Today's Insight</h4>
-                        <p id="user-insight" style="font-size: var(--text-base); line-height: 1.6;">
-                            Loading your personalized insight...
-                        </p>
-                    </div>
-
-                    <!-- Partner Section -->
-                    <div class="glass-card partner-section animate-fade-in stagger-3">
-                        <h3>💬 Share with Your Partner</h3>
-                        <p>Give your partner this code so they can receive supportive notifications.</p>
-                        <div class="partner-code">
-                            <span class="partner-code__value" id="link-code">------</span>
-                            <button class="partner-code__copy" id="copy-code-btn">Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Message Preview -->
-                    <div class="glass-card message-preview animate-fade-in stagger-4">
-                        <h3>📨 What Your Partner Sees</h3>
-                        <div class="message-preview__card">
-                            <div class="message-preview__icon" id="preview-icon">💕</div>
-                            <div class="message-preview__content">
-                                <h4 id="preview-phase">Current Phase</h4>
-                                <p id="preview-message">Loading partner message...</p>
-                                <p class="message-preview__tip" id="preview-tip">💡 Loading tip...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="quick-actions">
-                    <button class="btn btn--secondary" id="log-mood-btn">😊 Log Mood</button>
-                    <a href="partner.html" class="btn btn--secondary">👀 Partner View</a>
-                    <button class="btn btn--secondary" id="settings-btn">⚙️ Settings</button>
-                </div>
+            <!-- Partner Code -->
+            <div class="info-panel">
+                <div class="info-panel__title">Partner Code</div>
+                <div class="partner-code" id="link-code">------</div>
+                <button class="btn btn--secondary" id="copy-code-btn">Copy Code</button>
             </div>
-        </main>
+
+            <!-- Current Status -->
+            <div class="info-panel">
+                <div class="info-panel__title">Current Status</div>
+                <div class="info-panel__content" id="user-insight">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="btn btn--primary" id="log-period-btn">Log Period</button>
+            <button class="btn btn--secondary" id="log-mood-btn">Log Mood</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Axion - Cycle awareness system</p>
+        </footer>
     </div>
 
     <!-- Scripts -->
@@ -441,14 +177,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if onboarded
             if (!window.MoodSyncStorage.isOnboarded()) {
                 window.location.href = 'onboarding.html';
                 return;
             }
-
             updateDashboard();
-            setupDashboardEvents();
         });
 
         function updateDashboard() {
@@ -457,160 +190,71 @@
 
             // Update greeting
             const hour = new Date().getHours();
-            let greeting = 'Good evening';
-            if (hour < 12) greeting = 'Good morning';
-            else if (hour < 17) greeting = 'Good afternoon';
+            let greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+            document.getElementById('greeting').textContent = greeting + (profile.name ? ', ' + profile.name : '');
 
-            document.getElementById('greeting').textContent = `${greeting}, ${profile.name}! 🌸`;
-            document.getElementById('date-display').textContent = new Date().toLocaleDateString('en-US', {
+            // Update date
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
                 weekday: 'long',
-                month: 'long',
+                month: 'short',
                 day: 'numeric'
             });
 
-            // Update cycle status
-            document.getElementById('cycle-status').textContent =
-                `Day ${cycleInfo.currentDay} of ${cycleInfo.cycleLength}`;
+            // Update cycle display
+            document.getElementById('cycle-day').textContent = cycleInfo.currentDay;
+            document.getElementById('cycle-length').textContent = cycleInfo.cycleLength;
+            document.getElementById('phase-badge').textContent = cycleInfo.currentPhase.name;
 
-            // Update phase badge
-            document.getElementById('phase-emoji').textContent = cycleInfo.currentPhase.emoji;
-            document.getElementById('phase-name').textContent = cycleInfo.currentPhase.name;
-
-            // Highlight current phase
-            document.querySelectorAll('.phase-item').forEach(item => {
-                item.classList.remove('phase-item--active');
-            });
-
-            const currentPhaseName = cycleInfo.currentPhase.name.toLowerCase();
-            if (currentPhaseName.includes('menstrual')) {
-                document.querySelector('[data-phase="menstrual"]').classList.add('phase-item--active');
-            } else if (currentPhaseName.includes('follicular')) {
-                document.querySelector('[data-phase="follicular"]').classList.add('phase-item--active');
-            } else if (currentPhaseName.includes('ovulation')) {
-                document.querySelector('[data-phase="ovulation"]').classList.add('phase-item--active');
-            } else {
-                document.querySelector('[data-phase="luteal"]').classList.add('phase-item--active');
-            }
-
-            // Render cycle wheel
-            window.MoodSyncApp.renderCycleWheel('cycle-wheel-container', cycleInfo);
-
-            // Update next period info
-            document.getElementById('next-period-days').textContent =
-                cycleInfo.daysUntilNext === 0 ? 'Today' :
-                    cycleInfo.daysUntilNext === 1 ? 'Tomorrow' :
-                        `${cycleInfo.daysUntilNext} days`;
-            document.getElementById('next-period-date').textContent =
-                window.MoodSyncCycle.formatDate(cycleInfo.nextPeriod);
-
-            // Update user insight
-            document.getElementById('user-insight').textContent = cycleInfo.currentPhase.userMessage;
+            // Update next period
+            document.getElementById('days-until').textContent = cycleInfo.daysUntilNext;
+            document.getElementById('next-date').textContent = window.MoodSyncCycle.formatDate(cycleInfo.nextPeriod);
 
             // Update partner code
             const linkCode = window.MoodSyncStorage.getLinkCode();
             document.getElementById('link-code').textContent = linkCode;
 
-            // Update partner message preview
-            const partnerNotification = window.MoodSyncCycle.getPartnerNotification(cycleInfo);
-            document.getElementById('preview-icon').textContent = partnerNotification.emoji;
-            document.getElementById('preview-phase').textContent = partnerNotification.phase;
-            document.getElementById('preview-message').textContent = partnerNotification.message;
-            document.getElementById('preview-tip').textContent = `💡 ${partnerNotification.tip}`;
-        }
+            // Update status
+            document.getElementById('status-message').textContent = cycleInfo.currentPhase.userMessage;
+            document.getElementById('user-insight').textContent = cycleInfo.currentPhase.userMessage;
 
-        function setupDashboardEvents() {
-            // Log period button
-            document.getElementById('log-period-btn').addEventListener('click', () => {
-                const today = new Date().toISOString().split('T')[0];
-                window.MoodSyncApp.showModal(`
-          <form id="log-period-form">
-            <div class="form-group">
-              <label class="form-label">First Day of Period</label>
-              <input type="date" name="startDate" class="form-input" value="${today}" max="${today}" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Notes (optional)</label>
-              <textarea name="notes" class="form-input" rows="3" placeholder="Any notes..."></textarea>
-            </div>
-            <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: var(--space-4);">
-              Log Period 🌸
-            </button>
-          </form>
-        `, { title: '🩸 Log Your Period' });
-            });
-
-            // Copy code button
+            // Event listeners
             document.getElementById('copy-code-btn').addEventListener('click', () => {
-                const code = document.getElementById('link-code').textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                    window.MoodSyncNotifications.showToast('Code copied! Share it with your partner 💕', 'success');
-                });
+                navigator.clipboard.writeText(linkCode);
+                document.getElementById('copy-code-btn').textContent = 'Copied';
+                setTimeout(() => {
+                    document.getElementById('copy-code-btn').textContent = 'Copy Code';
+                }, 2000);
             });
 
-            // Log mood button
+            document.getElementById('log-period-btn').addEventListener('click', () => {
+                window.MoodSyncApp.showModal(`
+                    <form id="log-period-form">
+                        <div class="form-group">
+                            <label class="form-label">Period Start Date</label>
+                            <input type="date" name="startDate" class="form-input" value="${new Date().toISOString().split('T')[0]}" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: var(--space-4);">Log Period</button>
+                    </form>
+                `, { title: 'Log Period' });
+            });
+
             document.getElementById('log-mood-btn').addEventListener('click', () => {
                 window.MoodSyncApp.showModal(`
-          <div style="text-align: center;">
-            <p style="margin-bottom: var(--space-4);">How are you feeling today?</p>
-            <div style="display: flex; justify-content: center; gap: var(--space-4); font-size: 36px; margin-bottom: var(--space-4);">
-              <button class="mood-btn" data-mood="great" style="background: none; border: none; cursor: pointer; padding: 10px; border-radius: 50%; transition: all 0.2s;">😊</button>
-              <button class="mood-btn" data-mood="good" style="background: none; border: none; cursor: pointer; padding: 10px; border-radius: 50%; transition: all 0.2s;">🙂</button>
-              <button class="mood-btn" data-mood="meh" style="background: none; border: none; cursor: pointer; padding: 10px; border-radius: 50%; transition: all 0.2s;">😐</button>
-              <button class="mood-btn" data-mood="low" style="background: none; border: none; cursor: pointer; padding: 10px; border-radius: 50%; transition: all 0.2s;">😔</button>
-              <button class="mood-btn" data-mood="bad" style="background: none; border: none; cursor: pointer; padding: 10px; border-radius: 50%; transition: all 0.2s;">😢</button>
-            </div>
-          </div>
-        `, { title: '😊 Log Your Mood' });
-
-                document.querySelectorAll('.mood-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        window.MoodSyncStorage.logMood(btn.dataset.mood);
-                        window.MoodSyncNotifications.showToast('Mood logged! 💕', 'love');
-                        window.MoodSyncApp.closeModal();
-                    });
-                });
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3);">
+                        <button class="action-btn" data-mood="great" onclick="logMood('great')">Great</button>
+                        <button class="action-btn" data-mood="good" onclick="logMood('good')">Good</button>
+                        <button class="action-btn" data-mood="okay" onclick="logMood('okay')">Okay</button>
+                        <button class="action-btn" data-mood="tired" onclick="logMood('tired')">Tired</button>
+                        <button class="action-btn" data-mood="stressed" onclick="logMood('stressed')">Stressed</button>
+                        <button class="action-btn" data-mood="low" onclick="logMood('low')">Low</button>
+                    </div>
+                `, { title: 'Log Mood' });
             });
+        }
 
-            // Settings button
-            document.getElementById('settings-btn').addEventListener('click', () => {
-                window.MoodSyncApp.showModal(`
-          <div class="form-group">
-            <label class="form-label">Cycle Length (days)</label>
-            <input type="number" id="settings-cycle" class="form-input" min="21" max="40" value="${window.MoodSyncStorage.getUserProfile().cycleLength}">
-          </div>
-          <div class="form-group">
-            <label class="form-label">
-              <input type="checkbox" id="settings-notifications" ${window.MoodSyncStorage.getSettings().notifications ? 'checked' : ''}>
-              Enable Notifications
-            </label>
-          </div>
-          <button id="save-settings" class="btn btn--primary" style="width: 100%; margin-top: var(--space-4);">
-            Save Settings
-          </button>
-          <button id="reset-data" class="btn btn--secondary" style="width: 100%; margin-top: var(--space-3);">
-            Reset All Data
-          </button>
-        `, { title: '⚙️ Settings' });
-
-                document.getElementById('save-settings').addEventListener('click', () => {
-                    const profile = window.MoodSyncStorage.getUserProfile();
-                    profile.cycleLength = parseInt(document.getElementById('settings-cycle').value);
-                    window.MoodSyncStorage.saveUserProfile(profile);
-                    window.MoodSyncStorage.saveSettings({
-                        notifications: document.getElementById('settings-notifications').checked
-                    });
-                    window.MoodSyncNotifications.showToast('Settings saved!', 'success');
-                    window.MoodSyncApp.closeModal();
-                    updateDashboard();
-                });
-
-                document.getElementById('reset-data').addEventListener('click', () => {
-                    if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
-                        window.MoodSyncStorage.clearAllData();
-                        window.location.href = 'onboarding.html';
-                    }
-                });
-            });
+        function logMood(mood) {
+            window.MoodSyncStorage.logMood(mood);
+            window.MoodSyncApp.closeModal();
         }
     </script>
 </body>

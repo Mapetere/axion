@@ -1,535 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Axion - A thoughtful period tracking app that helps partners understand and support each other through the menstrual cycle.">
-  <title>Axion - Stay Connected Through Every Phase</title>
-  
+  <meta name="description" content="Axion - Cycle awareness and partner notification system.">
+  <title>Axion - Cycle Awareness System</title>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
   <!-- Styles -->
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/animations.css">
-  
+
   <style>
-    /* Landing Page Specific Styles */
     .hero {
-      min-height: 100vh;
+      padding: var(--space-20) 0;
+      min-height: 80vh;
       display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
+      align-items: center;
     }
-    
-    .hero__bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--gradient-warm);
-      z-index: -2;
-    }
-    
-    .hero__blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.6;
-      z-index: -1;
-    }
-    
-    .hero__blob--1 {
-      width: 600px;
-      height: 600px;
-      background: var(--primary-300);
-      top: -200px;
-      right: -100px;
-      animation: float 8s ease-in-out infinite;
-    }
-    
-    .hero__blob--2 {
-      width: 400px;
-      height: 400px;
-      background: var(--secondary-300);
-      bottom: -100px;
-      left: -100px;
-      animation: float 10s ease-in-out infinite reverse;
-    }
-    
+
     .hero__content {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: var(--space-8) 0;
-    }
-    
-    .hero__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-16);
-      align-items: center;
-    }
-    
-    .hero__text {
       max-width: 560px;
     }
-    
+
     .hero__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      background: white;
-      padding: var(--space-2) var(--space-4);
-      border-radius: var(--radius-full);
-      font-size: var(--text-sm);
-      font-weight: var(--font-medium);
-      color: var(--primary-600);
-      margin-bottom: var(--space-6);
-      box-shadow: var(--shadow-md);
+      display: inline-block;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-calm);
+      margin-bottom: var(--space-4);
     }
-    
+
     .hero__title {
-      font-size: var(--text-6xl);
-      line-height: 1.1;
+      font-size: var(--text-3xl);
+      line-height: 1.2;
       margin-bottom: var(--space-6);
     }
-    
+
     .hero__subtitle {
-      font-size: var(--text-xl);
-      color: var(--neutral-600);
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+      line-height: 1.7;
       margin-bottom: var(--space-8);
-      line-height: 1.6;
     }
-    
+
     .hero__buttons {
       display: flex;
       gap: var(--space-4);
-      flex-wrap: wrap;
     }
-    
-    .hero__visual {
-      display: flex;
-      justify-content: center;
-      position: relative;
-    }
-    
-    .hero__phone {
-      background: white;
-      border-radius: 40px;
-      padding: 12px;
-      box-shadow: var(--shadow-xl), var(--shadow-glow);
-      transform: rotate(3deg);
-    }
-    
-    .hero__phone-screen {
-      width: 280px;
-      height: 560px;
-      background: var(--gradient-warm);
-      border-radius: 32px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: var(--space-8) var(--space-4);
-    }
-    
-    .hero__phone-header {
-      text-align: center;
-      margin-bottom: var(--space-6);
-    }
-    
-    .hero__phone-header h4 {
-      font-size: var(--text-lg);
-      margin-bottom: var(--space-1);
-    }
-    
-    .hero__phone-header p {
-      font-size: var(--text-sm);
-      margin: 0;
-    }
-    
-    /* Features Section */
+
     .features {
-      background: white;
-      padding: var(--space-24) 0;
+      padding: var(--space-16) 0;
+      border-top: 1px solid var(--border-subtle);
     }
-    
+
     .features__grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-8);
-      margin-top: var(--space-12);
+      gap: var(--space-6);
+      margin-top: var(--space-8);
     }
-    
-    .feature-card {
-      text-align: center;
-      padding: var(--space-8);
+
+    .feature {
+      padding: var(--space-5);
     }
-    
-    .feature-card__icon {
-      width: 80px;
-      height: 80px;
-      background: var(--gradient-primary);
-      border-radius: var(--radius-2xl);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      margin: 0 auto var(--space-6);
-      box-shadow: var(--shadow-lg), 0 8px 20px rgba(255, 107, 138, 0.3);
-    }
-    
-    .feature-card__icon--purple {
-      background: var(--gradient-secondary);
-      box-shadow: var(--shadow-lg), 0 8px 20px rgba(139, 92, 246, 0.3);
-    }
-    
-    .feature-card__icon--green {
-      background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
-      box-shadow: var(--shadow-lg), 0 8px 20px rgba(16, 185, 129, 0.3);
-    }
-    
-    .feature-card h3 {
-      font-size: var(--text-xl);
-      margin-bottom: var(--space-3);
-    }
-    
-    .feature-card p {
+
+    .feature__title {
       font-size: var(--text-base);
+      font-weight: var(--font-semibold);
+      margin-bottom: var(--space-2);
+    }
+
+    .feature__desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
       line-height: 1.6;
     }
-    
-    /* How It Works */
+
     .how-it-works {
-      padding: var(--space-24) 0;
+      padding: var(--space-16) 0;
+      border-top: 1px solid var(--border-subtle);
     }
-    
+
     .steps {
       display: flex;
       gap: var(--space-8);
-      margin-top: var(--space-12);
-      position: relative;
+      margin-top: var(--space-8);
     }
-    
-    .steps::before {
-      content: '';
-      position: absolute;
-      top: 40px;
-      left: 80px;
-      right: 80px;
-      height: 4px;
-      background: var(--gradient-primary);
-      border-radius: 2px;
-    }
-    
+
     .step {
       flex: 1;
-      text-align: center;
-      position: relative;
     }
-    
+
     .step__number {
-      width: 80px;
-      height: 80px;
-      background: white;
-      border: 4px solid var(--primary-400);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: var(--font-bold);
-      color: var(--primary-500);
-      margin: 0 auto var(--space-6);
-      position: relative;
-      z-index: 1;
-    }
-    
-    .step h4 {
-      font-size: var(--text-lg);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--accent-calm);
       margin-bottom: var(--space-2);
     }
-    
-    .step p {
+
+    .step__title {
+      font-size: var(--text-base);
+      font-weight: var(--font-medium);
+      margin-bottom: var(--space-2);
+    }
+
+    .step__desc {
       font-size: var(--text-sm);
+      color: var(--text-muted);
     }
-    
-    /* CTA Section */
+
     .cta {
-      background: var(--gradient-hero);
-      padding: var(--space-20) 0;
+      padding: var(--space-16) 0;
+      border-top: 1px solid var(--border-subtle);
       text-align: center;
-      color: white;
     }
-    
+
     .cta h2 {
-      color: white;
       margin-bottom: var(--space-4);
     }
-    
+
     .cta p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: var(--text-xl);
-      margin-bottom: var(--space-8);
+      margin-bottom: var(--space-6);
     }
-    
-    .cta .btn--primary {
-      background: white;
-      color: var(--primary-500);
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .cta .btn--primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-xl);
-    }
-    
-    /* Footer */
-    .footer {
-      background: var(--neutral-900);
-      color: white;
-      padding: var(--space-12) 0;
-      text-align: center;
-    }
-    
-    .footer p {
-      color: var(--neutral-400);
-      margin: 0;
-    }
-    
-    .footer__heart {
-      color: var(--primary-400);
-    }
-    
-    /* Responsive */
-    @media (max-width: 968px) {
-      .hero__grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .hero__text {
-        max-width: 100%;
-      }
-      
-      .hero__buttons {
-        justify-content: center;
-      }
-      
-      .hero__phone {
-        transform: none;
-      }
-      
+
+    @media (max-width: 768px) {
       .features__grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
       }
-      
+
       .steps {
         flex-direction: column;
-      }
-      
-      .steps::before {
-        display: none;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .hero__title {
-        font-size: var(--text-4xl);
-      }
-      
-      .hero__phone-screen {
-        width: 240px;
-        height: 480px;
       }
     }
   </style>
 </head>
+
 <body>
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero__bg"></div>
-    <div class="hero__blob hero__blob--1"></div>
-    <div class="hero__blob hero__blob--2"></div>
-    
+  <div class="container container--wide">
     <!-- Navigation -->
-    <header class="container">
-      <nav class="nav">
-        <a href="/" class="nav__logo">
-          <span class="nav__logo-icon">A</span>
-          Axion
-        </a>
-        <ul class="nav__links">
-          <li><a href="#features" class="nav__link">Features</a></li>
-          <li><a href="#how-it-works" class="nav__link">How It Works</a></li>
-          <li><a href="pages/partner.html" class="nav__link">Partner View</a></li>
-        </ul>
-        <a href="pages/onboarding.html" class="btn btn--primary">Get Started</a>
-      </nav>
-    </header>
-    
-    <!-- Hero Content -->
-    <div class="hero__content container">
-      <div class="hero__grid">
-        <div class="hero__text animate-fade-in-up">
-          <div class="hero__badge">
-            <span>🌸</span>
-            Relationship Wellness
-          </div>
-          <h1 class="hero__title">
-            Stay <span class="text-gradient">Connected</span> Through Every Phase
-          </h1>
-          <p class="hero__subtitle">
-            Axion helps your partner understand your cycle with gentle, supportive notifications. 
-            No more misunderstandings – just more love and understanding.
-          </p>
-          <div class="hero__buttons">
-            <a href="pages/onboarding.html" class="btn btn--primary btn--large">
-              Start Tracking
-            </a>
-            <a href="pages/partner.html" class="btn btn--secondary btn--large">
-              Partner Access
-            </a>
-          </div>
-        </div>
-        
-        <div class="hero__visual animate-fade-in stagger-2">
-          <div class="hero__phone animate-float">
-            <div class="hero__phone-screen">
-              <div class="hero__phone-header">
-                <h4>Today's Mood</h4>
-                <p>Day 23 of 28</p>
-              </div>
-              <div class="cycle-wheel" style="width: 200px; height: 200px;">
-                <div class="cycle-wheel__inner" style="width: 130px; height: 130px;">
-                  <span class="cycle-wheel__day" style="font-size: 2rem;">23</span>
-                  <span class="cycle-wheel__label">Day</span>
-                </div>
-              </div>
-              <div class="notification-card" style="margin-top: 24px; padding: 16px; font-size: 14px;">
-                <div class="notification-card__icon" style="width: 36px; height: 36px; font-size: 18px;">💕</div>
-                <div class="notification-card__content">
-                  <h4 style="font-size: 14px; margin-bottom: 4px;">For Your Partner</h4>
-                  <p style="font-size: 12px;">Extra care goes a long way ✨</p>
-                </div>
-              </div>
-            </div>
-          </div>
+    <nav class="nav">
+      <a href="/" class="nav__logo">AXION</a>
+      <ul class="nav__links">
+        <li><a href="#features" class="nav__link">Features</a></li>
+        <li><a href="#how-it-works" class="nav__link">How It Works</a></li>
+        <li><a href="pages/partner.html" class="nav__link">Partner View</a></li>
+      </ul>
+      <a href="pages/onboarding.html" class="btn btn--primary">Get Started</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__content">
+        <div class="hero__badge">Cycle Awareness System</div>
+        <h1 class="hero__title">Stay Connected Through Every Phase</h1>
+        <p class="hero__subtitle">
+          Axion provides your partner with calm, data-driven cycle status updates.
+          No alarms or warnings. Just clear information for better understanding.
+        </p>
+        <div class="hero__buttons">
+          <a href="pages/onboarding.html" class="btn btn--primary">Start Tracking</a>
+          <a href="pages/partner.html" class="btn btn--secondary">Partner Access</a>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <!-- Features Section -->
-  <section class="features" id="features">
-    <div class="container">
-      <h2 class="text-center">Why Couples Love <span class="text-gradient">Axion</span></h2>
-      <p class="text-center" style="max-width: 600px; margin: 0 auto;">
-        Built with love to foster understanding, patience, and deeper connection between partners.
-      </p>
-      
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+      <h2>System Features</h2>
+
       <div class="features__grid">
-        <div class="feature-card glass-card animate-fade-in-up stagger-1">
-          <div class="feature-card__icon">📱</div>
-          <h3>Smart Tracking</h3>
-          <p>Effortlessly track your cycle with our intuitive interface. Just log your period and we handle the rest.</p>
+        <div class="feature">
+          <h3 class="feature__title">Cycle Tracking</h3>
+          <p class="feature__desc">Log your cycle data. The system calculates phase and timing automatically.</p>
         </div>
-        
-        <div class="feature-card glass-card animate-fade-in-up stagger-2">
-          <div class="feature-card__icon feature-card__icon--purple">💬</div>
-          <h3>Gentle Notifications</h3>
-          <p>Your partner receives thoughtful, supportive messages – never medical details, just caring guidance.</p>
+
+        <div class="feature">
+          <h3 class="feature__title">Status Notifications</h3>
+          <p class="feature__desc">Your partner receives neutral, informative status updates. No medical details shared.
+          </p>
         </div>
-        
-        <div class="feature-card glass-card animate-fade-in-up stagger-3">
-          <div class="feature-card__icon feature-card__icon--green">🔒</div>
-          <h3>Privacy First</h3>
-          <p>All your data stays on your device. No servers, no sharing – just you and your partner.</p>
+
+        <div class="feature">
+          <h3 class="feature__title">Local Storage</h3>
+          <p class="feature__desc">All data remains on your device. No external servers or third-party access.</p>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <!-- How It Works -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="container">
-      <h2 class="text-center">How It <span class="text-gradient">Works</span></h2>
-      <p class="text-center" style="max-width: 500px; margin: 0 auto;">
-        Get started in just 3 simple steps
-      </p>
-      
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+      <h2>How It Works</h2>
+
       <div class="steps">
-        <div class="step animate-fade-in-up stagger-1">
-          <div class="step__number">1</div>
-          <h4>Set Up Your Profile</h4>
-          <p>Enter your cycle length and last period date</p>
+        <div class="step">
+          <div class="step__number">01</div>
+          <h4 class="step__title">Configure Profile</h4>
+          <p class="step__desc">Enter your cycle length and last period date</p>
         </div>
-        
-        <div class="step animate-fade-in-up stagger-2">
-          <div class="step__number">2</div>
-          <h4>Share Your Code</h4>
-          <p>Give your partner the unique link code</p>
+
+        <div class="step">
+          <div class="step__number">02</div>
+          <h4 class="step__title">Share Access Code</h4>
+          <p class="step__desc">Provide your partner with the generated link code</p>
         </div>
-        
-        <div class="step animate-fade-in-up stagger-3">
-          <div class="step__number">3</div>
-          <h4>Stay Connected</h4>
-          <p>They'll receive loving notifications automatically</p>
+
+        <div class="step">
+          <div class="step__number">03</div>
+          <h4 class="step__title">Receive Updates</h4>
+          <p class="step__desc">Partner receives daily status notifications</p>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <!-- CTA Section -->
-  <section class="cta">
-    <div class="container">
-      <h2>Ready to Strengthen Your Bond?</h2>
-      <p>Join couples who communicate better through understanding.</p>
-      <a href="pages/onboarding.html" class="btn btn--primary btn--large">
-        Get Started Free 💕
-      </a>
-    </div>
-  </section>
-  
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>Made with <span class="footer__heart">❤️</span> for couples who care</p>
-    </div>
-  </footer>
-  
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <h2>Begin Cycle Tracking</h2>
+      <p>Set up your profile in under a minute.</p>
+      <a href="pages/onboarding.html" class="btn btn--primary">Get Started</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Axion - Cycle awareness system</p>
+    </footer>
+  </div>
+
   <!-- Scripts -->
   <script src="js/cycle.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/notifications.js"></script>
   <script src="js/app.js"></script>
-  
+
   <script>
-    // Check if already onboarded
     document.addEventListener('DOMContentLoaded', () => {
       const isOnboarded = window.MoodSyncStorage.isOnboarded();
       const getStartedButtons = document.querySelectorAll('a[href="pages/onboarding.html"]');
-      
+
       if (isOnboarded) {
         getStartedButtons.forEach(btn => {
           btn.href = 'pages/dashboard.html';
-          if (btn.textContent.includes('Start Tracking')) {
-            btn.textContent = 'Go to Dashboard 📊';
-          } else if (btn.textContent.includes('Get Started')) {
-            btn.textContent = 'Open Dashboard';
-          }
+          btn.textContent = 'Open Dashboard';
         });
       }
     });
   </script>
 </body>
+
 </html>
