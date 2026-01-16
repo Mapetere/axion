@@ -8,7 +8,8 @@
             "temperature": "High",
             "urgency": "Low",
             "messages": [
-                "Elevated sensitivity phase currently active; operational margins temporarily reduced."
+                "Elevated sensitivity phase currently active; operational margins temporarily reduced.",
+                "System state indicates heightened reactivity threshold in effect."
             ]
         }
     }
