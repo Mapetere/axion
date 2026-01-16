@@ -1,7 +1,7 @@
 {
-  "name": "moodsync",
+  "name": "axion",
   "version": "1.0.0",
-  "description": "Period tracking app with partner notifications",
+  "description": "Axion - Cyclical state awareness for better timing and communication",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
