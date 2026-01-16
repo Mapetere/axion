@@ -1,6 +1,6 @@
 /**
- * MoodSync - Main App Module
- * Handles app initialization, navigation, and global state
+ * Axion - Main App Module
+ * Handles application initialization and global utilities
  */
 
 // App State
@@ -15,7 +15,7 @@ const AppState = {
  * Initialize the app
  */
 function initApp() {
-    console.log('🌸 MoodSync initializing...');
+    console.log('Axion initializing...');
 
     // Load user data
     AppState.user = window.MoodSyncStorage.getUserProfile();
@@ -28,7 +28,7 @@ function initApp() {
     window.MoodSyncNotifications.requestNotificationPermission();
 
     AppState.isInitialized = true;
-    console.log('✨ MoodSync ready!');
+    console.log('Axion ready');
 }
 
 /**
