@@ -20,7 +20,8 @@
                 "Current state reflects elevated signal sensitivity and lower friction margin.",
                 "System operating in reduced-tolerance mode for this interval.",
                 "Active cycle phase indicates decreased capacity for ambiguity.",
-                "Elevated reactivity state detected; interaction margins compressed."
+                "Elevated reactivity state detected; interaction margins compressed.",
+                "Phase parameters indicate sensitivity spike and tolerance reduction."
             ]
         }
     }
