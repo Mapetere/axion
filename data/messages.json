@@ -17,7 +17,8 @@
                 "System registers reduced tolerance band for current interval.",
                 "Sensitivity index elevated; standard interaction thresholds temporarily narrowed.",
                 "Phase status: heightened response probability, decreased absorption capacity.",
-                "Current state reflects elevated signal sensitivity and lower friction margin."
+                "Current state reflects elevated signal sensitivity and lower friction margin.",
+                "System operating in reduced-tolerance mode for this interval."
             ]
         }
     }
