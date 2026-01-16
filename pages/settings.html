@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Axion Settings - Configure your preferences.">
+    <title>Settings - Axion</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Theme (loaded first to prevent flash) -->
+    <script src="../js/theme.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+
+    <style>
+        .settings {
+            padding: var(--space-8) 0;
+            min-height: 80vh;
+        }
+
+        .settings__header {
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .settings__title {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .settings__desc {
+            color: var(--text-muted);
+            font-size: var(--text-sm);
+        }
+
+        .settings-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .settings-section__title {
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item__info {
+            flex: 1;
+        }
+
+        .settings-item__label {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .settings-item__desc {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+        }
+
+        .settings-item__control {
+            margin-left: var(--space-6);
+        }
+
+        /* Toggle Switch */
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-visible);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: var(--transition-base);
+        }
+
+        .toggle.active {
+            background: var(--accent-calm);
+            border-color: var(--accent-calm-dim);
+        }
+
+        .toggle.active::after {
+            left: 22px;
+            background: var(--text-primary);
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .theme-option {
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .theme-option:hover {
+            opacity: 0.8;
+        }
+
+        .theme-option.active {
+            background: var(--accent-calm);
+            border-color: var(--accent-calm-dim);
+            color: var(--text-primary);
+        }
+
+        /* Account Card */
+        .account-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+        }
+
+        .account-card__user {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .account-card__avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--accent-calm);
+        }
+
+        .account-card__name {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+        }
+
+        .account-card__type {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+        }
+
+        .account-card__actions {
+            display: flex;
+            gap: var(--space-3);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--border-subtle);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="../index.html" class="nav__logo">AXION<sub
+                    style="font-size: 0.6em; font-weight: 400; opacity: 0.6; margin-left: 2px;">sync</sub></a>
+            <ul class="nav__links">
+                <li><a href="../index.html" class="nav__link">Status</a></li>
+                <li><a href="dashboard.html" class="nav__link">Dashboard</a></li>
+            </ul>
+        </nav>
+
+        <!-- Settings -->
+        <div class="settings">
+            <div class="settings__header">
+                <h1 class="settings__title">Settings</h1>
+                <p class="settings__desc">Configure system preferences</p>
+            </div>
+
+            <!-- Appearance -->
+            <section class="settings-section">
+                <h2 class="settings-section__title">Appearance</h2>
+
+                <div class="settings-item">
+                    <div class="settings-item__info">
+                        <div class="settings-item__label">Theme</div>
+                        <div class="settings-item__desc">Select interface appearance</div>
+                    </div>
+                    <div class="settings-item__control">
+                        <div class="theme-selector">
+                            <button class="theme-option" data-theme="dark" id="theme-dark">Dark</button>
+                            <button class="theme-option" data-theme="light" id="theme-light">Light</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications -->
+            <section class="settings-section">
+                <h2 class="settings-section__title">Notifications</h2>
+
+                <div class="settings-item">
+                    <div class="settings-item__info">
+                        <div class="settings-item__label">Status Updates</div>
+                        <div class="settings-item__desc">Receive daily cycle status notifications</div>
+                    </div>
+                    <div class="settings-item__control">
+                        <div class="toggle" id="toggle-notifications"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-item__info">
+                        <div class="settings-item__label">Phase Transitions</div>
+                        <div class="settings-item__desc">Notify on cycle phase changes</div>
+                    </div>
+                    <div class="settings-item__control">
+                        <div class="toggle" id="toggle-phase"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account -->
+            <section class="settings-section">
+                <h2 class="settings-section__title">Account</h2>
+
+                <div id="account-logged-out">
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">
+                        Sign in to sync your data across devices.
+                    </p>
+                    <a href="auth.html" class="btn btn--primary">Sign In</a>
+                </div>
+
+                <div id="account-logged-in" style="display: none;">
+                    <div class="account-card">
+                        <div class="account-card__user">
+                            <div class="account-card__avatar" id="user-avatar">A</div>
+                            <div>
+                                <div class="account-card__name" id="user-name">User</div>
+                                <div class="account-card__type" id="user-type">Local Account</div>
+                            </div>
+                        </div>
+                        <div class="account-card__actions">
+                            <button class="btn btn--secondary" id="btn-logout">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile -->
+            <section class="settings-section">
+                <h2 class="settings-section__title">Profile</h2>
+
+                <div class="settings-item">
+                    <div class="settings-item__info">
+                        <div class="settings-item__label">Cycle Length</div>
+                        <div class="settings-item__desc" id="cycle-length-display">28 days</div>
+                    </div>
+                    <div class="settings-item__control">
+                        <button class="btn btn--ghost" id="btn-edit-cycle">Edit</button>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-item__info">
+                        <div class="settings-item__label">Data Storage</div>
+                        <div class="settings-item__desc">All data stored locally on this device</div>
+                    </div>
+                    <div class="settings-item__control">
+                        <button class="btn btn--ghost" id="btn-clear-data">Clear</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Axion - Cycle awareness system</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initThemeSelector();
+            initToggles();
+            initAccount();
+            initProfile();
+        });
+
+        function initThemeSelector() {
+            const currentTheme = window.AxionTheme.get();
+            updateThemeButtons(currentTheme);
+
+            document.getElementById('theme-dark').addEventListener('click', () => {
+                window.AxionTheme.apply('dark');
+                updateThemeButtons('dark');
+            });
+
+            document.getElementById('theme-light').addEventListener('click', () => {
+                window.AxionTheme.apply('light');
+                updateThemeButtons('light');
+            });
+        }
+
+        function updateThemeButtons(theme) {
+            document.querySelectorAll('.theme-option').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+        }
+
+        function initToggles() {
+            const notifToggle = document.getElementById('toggle-notifications');
+            const phaseToggle = document.getElementById('toggle-phase');
+
+            // Load saved preferences
+            const notifEnabled = localStorage.getItem('axion-notif-status') === 'true';
+            const phaseEnabled = localStorage.getItem('axion-notif-phase') === 'true';
+
+            if (notifEnabled) notifToggle.classList.add('active');
+            if (phaseEnabled) phaseToggle.classList.add('active');
+
+            notifToggle.addEventListener('click', () => {
+                notifToggle.classList.toggle('active');
+                localStorage.setItem('axion-notif-status', notifToggle.classList.contains('active'));
+            });
+
+            phaseToggle.addEventListener('click', () => {
+                phaseToggle.classList.toggle('active');
+                localStorage.setItem('axion-notif-phase', phaseToggle.classList.contains('active'));
+            });
+        }
+
+        function initAccount() {
+            const loggedOut = document.getElementById('account-logged-out');
+            const loggedIn = document.getElementById('account-logged-in');
+
+            if (window.AxionAuth.isAuthenticated()) {
+                const user = window.AxionAuth.getCurrentUser();
+                loggedOut.style.display = 'none';
+                loggedIn.style.display = 'block';
+
+                document.getElementById('user-name').textContent = user.name || user.email || 'User';
+                document.getElementById('user-avatar').textContent = (user.name || user.email || 'U')[0].toUpperCase();
+                document.getElementById('user-type').textContent = user.type === 'email' ? 'Email Account' : 'Local Account';
+            }
+
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                window.AxionAuth.logout();
+                window.location.reload();
+            });
+        }
+
+        function initProfile() {
+            const profile = window.MoodSyncStorage?.getUserProfile?.();
+            if (profile) {
+                document.getElementById('cycle-length-display').textContent = `${profile.cycleLength || 28} days`;
+            }
+
+            document.getElementById('btn-edit-cycle').addEventListener('click', () => {
+                window.location.href = 'onboarding.html';
+            });
+
+            document.getElementById('btn-clear-data').addEventListener('click', () => {
+                if (confirm('Clear all local data? This cannot be undone.')) {
+                    localStorage.clear();
+                    window.location.href = '../index.html';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
