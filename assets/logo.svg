@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 24" fill="currentColor">
+  <!-- Axion sync Wordmark - Technical, monochromatic -->
+  <!-- AXION in uppercase, sync in lowercase subscript -->
+  <text font-family="Inter, -apple-system, system-ui, sans-serif" letter-spacing="0.05em">
+    <tspan x="0" y="18" font-size="20" font-weight="600">AXION</tspan>
+    <tspan x="78" y="22" font-size="11" font-weight="400" fill-opacity="0.6">sync</tspan>
+  </text>
+</svg>
