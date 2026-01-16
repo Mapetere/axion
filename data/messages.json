@@ -7,7 +7,9 @@
             "intent": "Awareness and caution",
             "temperature": "High",
             "urgency": "Low",
-            "messages": []
+            "messages": [
+                "Elevated sensitivity phase currently active; operational margins temporarily reduced."
+            ]
         }
     }
 }
