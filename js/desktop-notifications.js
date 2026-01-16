@@ -1,5 +1,5 @@
 /**
- * MoodSync - Desktop Notifications Manager
+ * Axion - Desktop Notifications Manager
  * Handles scheduling and sending real desktop notifications
  */
 
@@ -117,7 +117,7 @@ class DesktopNotificationManager {
      */
     checkAndNotify() {
         const today = new Date().toDateString();
-        const lastNotified = localStorage.getItem('moodsync_last_notification');
+        const lastNotified = localStorage.getItem('axion_last_notification');
 
         // Only notify once per day
         if (lastNotified === today) {
@@ -135,7 +135,7 @@ class DesktopNotificationManager {
         this.sendPartnerNotification(cycleInfo);
 
         // Mark as notified today
-        localStorage.setItem('moodsync_last_notification', today);
+        localStorage.setItem('axion_last_notification', today);
         this.lastNotificationTime = new Date();
     }
 
@@ -152,8 +152,8 @@ class DesktopNotificationManager {
      * Send test notification
      */
     sendTestNotification() {
-        return this.sendNotification('MoodSync Test', {
-            body: 'Desktop notifications are working. Your partner will receive updates like this.',
+        return this.sendNotification('Axion Test', {
+            body: 'Desktop notifications are working. Partner will receive updates like this.',
             requireInteraction: false
         });
     }
@@ -167,12 +167,12 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
         try {
             const registration = await navigator.serviceWorker.register('/sw.js');
-            console.log('MoodSync Service Worker registered:', registration.scope);
+            console.log('Axion Service Worker registered:', registration.scope);
 
             // Request periodic sync for daily notifications
             if ('periodicSync' in registration) {
                 try {
-                    await registration.periodicSync.register('moodsync-daily-check', {
+                    await registration.periodicSync.register('axion-daily-check', {
                         minInterval: 24 * 60 * 60 * 1000 // 24 hours
                     });
                     console.log('Periodic sync registered');
