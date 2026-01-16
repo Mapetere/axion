@@ -10,7 +10,8 @@
             "messages": [
                 "Elevated sensitivity phase currently active; operational margins temporarily reduced.",
                 "System state indicates heightened reactivity threshold in effect.",
-                "Phase transition detected; friction tolerance operating below baseline."
+                "Phase transition detected; friction tolerance operating below baseline.",
+                "Current cycle position indicates reduced buffer capacity."
             ]
         }
     }
