@@ -1,5 +1,5 @@
 /**
- * MoodSync Server
+ * Axion Server
  * Simple Express server for serving static files
  */
 
@@ -30,5 +30,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`MoodSync server running on port ${PORT}`);
+    console.log(`Axion server running on port ${PORT}`);
 });
