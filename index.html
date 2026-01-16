@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Axion - Cycle awareness and partner notification system.">
-  <title>Axion - Cycle Awareness System</title>
+  <title>Axion - System Status</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,244 +14,228 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
+  <!-- Theme (loaded first to prevent flash) -->
+  <script src="js/theme.js"></script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/animations.css">
 
   <style>
-    .hero {
-      padding: var(--space-20) 0;
+    /* AXION Wordmark */
+    .nav__logo {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav__logo .logo-x {
+      display: inline-block;
+      transform: translateY(-1px);
+      font-weight: var(--font-semibold);
+    }
+
+    /* Settings Icon */
+    .nav__settings {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: var(--text-muted);
+      transition: var(--transition-base);
+    }
+
+    .nav__settings:hover {
+      opacity: 0.7;
+    }
+
+    .nav__settings svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Landing Layout */
+    .landing {
       min-height: 80vh;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
-    .hero__content {
-      max-width: 560px;
+    .status-display {
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
     }
 
-    .hero__badge {
-      display: inline-block;
+    .status-display__label {
       font-size: var(--text-xs);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent-calm);
-      margin-bottom: var(--space-4);
-    }
-
-    .hero__title {
-      font-size: var(--text-3xl);
-      line-height: 1.2;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
       margin-bottom: var(--space-6);
     }
 
-    .hero__subtitle {
+    .status-display__phase {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-semibold);
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.02em;
+    }
+
+    .status-display__day {
+      font-family: var(--font-mono);
       font-size: var(--text-lg);
       color: var(--text-secondary);
-      line-height: 1.7;
       margin-bottom: var(--space-8);
     }
 
-    .hero__buttons {
-      display: flex;
-      gap: var(--space-4);
+    .status-display__indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
     }
 
-    .features {
-      padding: var(--space-16) 0;
-      border-top: 1px solid var(--border-subtle);
+    .status-display__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-calm);
     }
 
-    .features__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
+    .status-display__message {
       margin-top: var(--space-8);
-    }
-
-    .feature {
       padding: var(--space-5);
-    }
-
-    .feature__title {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      color: var(--text-secondary);
       font-size: var(--text-base);
-      font-weight: var(--font-semibold);
-      margin-bottom: var(--space-2);
+      line-height: 1.7;
     }
 
-    .feature__desc {
-      font-size: var(--text-sm);
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .how-it-works {
-      padding: var(--space-16) 0;
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .steps {
-      display: flex;
-      gap: var(--space-8);
-      margin-top: var(--space-8);
-    }
-
-    .step {
-      flex: 1;
-    }
-
-    .step__number {
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      color: var(--accent-calm);
-      margin-bottom: var(--space-2);
-    }
-
-    .step__title {
-      font-size: var(--text-base);
-      font-weight: var(--font-medium);
-      margin-bottom: var(--space-2);
-    }
-
-    .step__desc {
-      font-size: var(--text-sm);
-      color: var(--text-muted);
-    }
-
-    .cta {
-      padding: var(--space-16) 0;
-      border-top: 1px solid var(--border-subtle);
+    /* Onboarding Prompt */
+    .onboarding-prompt {
       text-align: center;
+      max-width: 400px;
+      margin: 0 auto;
     }
 
-    .cta h2 {
-      margin-bottom: var(--space-4);
+    .onboarding-prompt__title {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
     }
 
-    .cta p {
+    .onboarding-prompt__desc {
+      color: var(--text-secondary);
       margin-bottom: var(--space-6);
     }
 
-    @media (max-width: 768px) {
-      .features__grid {
-        grid-template-columns: 1fr;
-      }
+    /* Footer */
+    .footer--minimal {
+      position: fixed;
+      bottom: var(--space-6);
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
 
-      .steps {
-        flex-direction: column;
-      }
+    .footer--minimal p {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin: 0;
     }
   </style>
 </head>
 
 <body>
-  <div class="container container--wide">
+  <div class="container">
     <!-- Navigation -->
     <nav class="nav">
-      <a href="/" class="nav__logo">AXION</a>
-      <ul class="nav__links">
-        <li><a href="#features" class="nav__link">Features</a></li>
-        <li><a href="#how-it-works" class="nav__link">How It Works</a></li>
-        <li><a href="pages/partner.html" class="nav__link">Partner View</a></li>
-      </ul>
-      <a href="pages/onboarding.html" class="btn btn--primary">Get Started</a>
+      <a href="/" class="nav__logo">AXION<sub
+          style="font-size: 0.6em; font-weight: 400; opacity: 0.6; margin-left: 2px;">sync</sub></a>
+      <a href="pages/settings.html" class="nav__settings" title="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </a>
     </nav>
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero__content">
-        <div class="hero__badge">Cycle Awareness System</div>
-        <h1 class="hero__title">Stay Connected Through Every Phase</h1>
-        <p class="hero__subtitle">
-          Axion provides your partner with calm, data-driven cycle status updates.
-          No alarms or warnings. Just clear information for better understanding.
+    <!-- Landing Content -->
+    <main class="landing">
+      <!-- Status Display (shown when onboarded) -->
+      <div class="status-display" id="status-display" style="display: none;">
+        <div class="status-display__label">System Status</div>
+        <div class="status-display__phase" id="phase-name">--</div>
+        <div class="status-display__day" id="day-display">Day -- of --</div>
+        <div class="status-display__indicator">
+          <span class="status-display__dot"></span>
+          <span id="status-indicator">Monitoring</span>
+        </div>
+        <div class="status-display__message" id="status-message">
+          Loading system status...
+        </div>
+      </div>
+
+      <!-- Onboarding Prompt (shown when not onboarded) -->
+      <div class="onboarding-prompt" id="onboarding-prompt">
+        <h1 class="onboarding-prompt__title">System Inactive</h1>
+        <p class="onboarding-prompt__desc">
+          Configure your profile to begin cycle monitoring.
         </p>
-        <div class="hero__buttons">
-          <a href="pages/onboarding.html" class="btn btn--primary">Start Tracking</a>
-          <a href="pages/partner.html" class="btn btn--secondary">Partner Access</a>
-        </div>
+        <a href="pages/onboarding.html" class="btn btn--primary">Initialize System</a>
       </div>
-    </section>
-
-    <!-- Features -->
-    <section class="features" id="features">
-      <h2>System Features</h2>
-
-      <div class="features__grid">
-        <div class="feature">
-          <h3 class="feature__title">Cycle Tracking</h3>
-          <p class="feature__desc">Log your cycle data. The system calculates phase and timing automatically.</p>
-        </div>
-
-        <div class="feature">
-          <h3 class="feature__title">Status Notifications</h3>
-          <p class="feature__desc">Your partner receives neutral, informative status updates. No medical details shared.
-          </p>
-        </div>
-
-        <div class="feature">
-          <h3 class="feature__title">Local Storage</h3>
-          <p class="feature__desc">All data remains on your device. No external servers or third-party access.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works" id="how-it-works">
-      <h2>How It Works</h2>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step__number">01</div>
-          <h4 class="step__title">Configure Profile</h4>
-          <p class="step__desc">Enter your cycle length and last period date</p>
-        </div>
-
-        <div class="step">
-          <div class="step__number">02</div>
-          <h4 class="step__title">Share Access Code</h4>
-          <p class="step__desc">Provide your partner with the generated link code</p>
-        </div>
-
-        <div class="step">
-          <div class="step__number">03</div>
-          <h4 class="step__title">Receive Updates</h4>
-          <p class="step__desc">Partner receives daily status notifications</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta">
-      <h2>Begin Cycle Tracking</h2>
-      <p>Set up your profile in under a minute.</p>
-      <a href="pages/onboarding.html" class="btn btn--primary">Get Started</a>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <p>Axion - Cycle awareness system</p>
-    </footer>
+    </main>
   </div>
+
+  <!-- Footer -->
+  <footer class="footer--minimal">
+    <p>Axion v1.0</p>
+  </footer>
 
   <!-- Scripts -->
   <script src="js/cycle.js"></script>
   <script src="js/storage.js"></script>
-  <script src="js/notifications.js"></script>
-  <script src="js/app.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const isOnboarded = window.MoodSyncStorage.isOnboarded();
-      const getStartedButtons = document.querySelectorAll('a[href="pages/onboarding.html"]');
+      const statusDisplay = document.getElementById('status-display');
+      const onboardingPrompt = document.getElementById('onboarding-prompt');
 
       if (isOnboarded) {
-        getStartedButtons.forEach(btn => {
-          btn.href = 'pages/dashboard.html';
-          btn.textContent = 'Open Dashboard';
-        });
+        statusDisplay.style.display = 'block';
+        onboardingPrompt.style.display = 'none';
+        updateStatusDisplay();
+      } else {
+        statusDisplay.style.display = 'none';
+        onboardingPrompt.style.display = 'block';
       }
     });
+
+    function updateStatusDisplay() {
+      const profile = window.MoodSyncStorage.getUserProfile();
+      const cycleInfo = window.MoodSyncCycle.getCycleInfo(profile.lastPeriodDate, profile.cycleLength);
+
+      document.getElementById('phase-name').textContent = cycleInfo.currentPhase.name;
+      document.getElementById('day-display').textContent = `Day ${cycleInfo.currentDay} of ${cycleInfo.cycleLength}`;
+      document.getElementById('status-message').textContent = cycleInfo.currentPhase.userMessage;
+      document.getElementById('status-indicator').textContent = 'Active';
+    }
   </script>
 </body>
 
