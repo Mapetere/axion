@@ -69,6 +69,9 @@
   /* Transitions - Subtle opacity only, ≤150ms */
   --transition-fast: opacity 100ms ease;
   --transition-base: opacity 150ms ease;
+
+  /* Misc */
+  --calendar-invert: 1;
 }
 
 /* ============================================
@@ -93,6 +96,9 @@
   /* Borders */
   --border-subtle: #e5e7eb;
   --border-visible: #d1d5db;
+
+  /* Misc */
+  --calendar-invert: 0;
 }
 
 /* ============================================
@@ -206,12 +212,28 @@ p {
 }
 
 .nav__logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.logo-main {
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
+  letter-spacing: 0.15em;
   color: var(--text-primary);
-  text-decoration: none;
-  letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+.logo-sub {
+  font-size: 0.6em;
+  font-weight: var(--font-medium);
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  opacity: 0.6;
+  text-transform: uppercase;
+  margin-top: 1px;
 }
 
 .nav__links {
@@ -427,6 +449,17 @@ p {
   transition: var(--transition-base);
 }
 
+.form-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(var(--calendar-invert));
+  opacity: 0.6;
+  transition: var(--transition-base);
+}
+
+.form-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
 .form-input::placeholder {
   color: var(--text-muted);
 }
@@ -571,4 +604,80 @@ p {
 
 .mb-6 {
   margin-bottom: var(--space-6);
+}
+
+/* ============================================
+   Loading Screen - System Calibration
+   ============================================ */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.scanner {
+  width: 240px;
+  height: 1px;
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.scanner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--accent-calm), transparent);
+  animation: scan 2s infinite ease-in-out;
+}
+
+@keyframes scan {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+.loading-text {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--accent-calm);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }

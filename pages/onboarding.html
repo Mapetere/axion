@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Configure your Axion profile to begin cycle tracking.">
   <title>Get Started - Axion</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,13 +59,19 @@
   </style>
 </head>
 
-<body>
+<body class="bg-primary">
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="scanner"></div>
+    <div class="loading-text">Initializing Axion Core</div>
+  </div>
+
   <div class="container">
     <!-- Navigation -->
     <nav class="nav">
-      <a href="../index.html">
-        <div class="auth-card__logo">AXION<sub
-            style="font-size: 0.6em; font-weight: 400; opacity: 0.6; margin-left: 2px;">sync</sub></div>
+      <a href="../index.html" class="nav__logo">
+        <span class="logo-main">Axion</span>
+        <span class="logo-sub">Sync</span>
       </a>
     </nav>
 
@@ -151,8 +158,32 @@
       window.MoodSyncStorage.createUserProfile(name, cycleLength, lastPeriodDate);
       window.MoodSyncStorage.generateLinkCode();
 
-      // Navigate to dashboard
-      window.location.href = 'dashboard.html';
+      // Show unique loading screen
+      const overlay = document.getElementById('loading-overlay');
+      const loadingText = overlay.querySelector('.loading-text');
+      overlay.classList.add('active');
+
+      const messages = [
+        "Initializing Axion Core",
+        "Calibrating human state signals",
+        "Mapping cyclical parameters",
+        "Synchronizing monitoring nodes"
+      ];
+
+      let msgIndex = 0;
+      const interval = setInterval(() => {
+        msgIndex++;
+        if (msgIndex < messages.length) {
+          loadingText.textContent = messages[msgIndex];
+        } else {
+          clearInterval(interval);
+        }
+      }, 600);
+
+      // Navigate after delay
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 2500);
     });
   </script>
 </body>

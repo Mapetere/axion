@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Aesthetic background -->
+  <rect width="32" height="32" rx="6" fill="#0d0f11"/>
+  
+  <!-- Stylized 'A' with sync/infinity element -->
+  <path d="M16 6L8 22H11L13.5 17H18.5L21 22H24L16 6ZM16 11L17.5 15H14.5L16 11Z" fill="#5a7d7c"/>
+  
+  <!-- Subtle sync/loop detail -->
+  <path d="M12 24C12 24 13.5 26 16 26C18.5 26 20 24 20 24" stroke="#5a7d7c" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+</svg>
